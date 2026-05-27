@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fleet Monitor — Corumba T.I.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <style>
+    /* ── FONTE ── */
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+    /* Rajdhani = fonte de display com cara técnica/industrial — usada nos títulos */
+    /* Inter = fonte limpa para textos menores */
+
+    * { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .label { font-family: 'Rajdhani', sans-serif; }
+
+    /* ── FUNDO ── */
+    body {
+      background: #060910;
+      /* gradiente radial sutil no centro para dar profundidade */
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.07) 0%, transparent 70%);
+      min-height: 100vh;
+    }
+
+    /* ── BOLHAS DE FUNDO ── */
+    /* igual ao CSS que você enviou, mas adaptado para o tema escuro */
+    .bubbles { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+    .bubbles li {
+      position: absolute; list-style: none;
+      background-image: url('https://corumba.digital/assets/c.regular.svg');
+      background-size: contain; background-repeat: no-repeat;
+      bottom: -150px; opacity: 0.04;
+      animation: floatUp 25s infinite;
+    }
+    /* cada bolha tem tamanho e delay diferente para parecer orgânico */
+    .bubbles li:nth-child(1)  { left: 25%; width: 80px;  height: 80px;  animation-delay: 0s;   animation-duration: 20s; }
+    .bubbles li:nth-child(2)  { left: 10%; width: 20px;  height: 20px;  animation-delay: 2s;   animation-duration: 12s; }
+    .bubbles li:nth-child(3)  { left: 70%; width: 20px;  height: 20px;  animation-delay: 4s;   animation-duration: 22s; }
+    .bubbles li:nth-child(4)  { left: 40%; width: 60px;  height: 60px;  animation-delay: 0s;   animation-duration: 18s; }
+    .bubbles li:nth-child(5)  { left: 65%; width: 20px;  height: 20px;  animation-delay: 0s;   animation-duration: 15s; }
+    .bubbles li:nth-child(6)  { left: 75%; width: 110px; height: 110px; animation-delay: 3s;   animation-duration: 28s; }
+    .bubbles li:nth-child(7)  { left: 35%; width: 150px; height: 150px; animation-delay: 7s;   animation-duration: 35s; }
+    .bubbles li:nth-child(8)  { left: 50%; width: 25px;  height: 25px;  animation-delay: 15s;  animation-duration: 45s; }
+    .bubbles li:nth-child(9)  { left: 20%; width: 15px;  height: 15px;  animation-delay: 2s;   animation-duration: 35s; }
+    .bubbles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s;   animation-duration: 11s; }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0.04; }
+      100% { transform: translateY(-1100px) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── ABAS ── */
+    /* a aba ativa tem um indicador azul embaixo e texto branco */
+    .tab-btn { transition: all 0.2s; position: relative; }
+    .tab-btn.active { color: #fff; }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0; right: 0;
+      height: 2px; background: #3b82f6;
+      border-radius: 2px;
+    }
+
+    /* ── PAINEL DE ABA ── */
+    /* cada painel de conteúdo fica oculto por padrão */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── CARDS DE IMPRESSORA ── */
+    /* borda pulsante vermelha para impressoras com erro */
+    @keyframes pulse-err {
+      0%, 100% { border-color: rgba(239,68,68,0.3); }
+      50%       { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+    }
+    .client-error { animation: pulse-err 2s infinite; border-width: 2px !important; }
+
+    /* ── SCROLLBAR ── */
+    /* customiza a barra de scroll para combinar com o tema escuro */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="text-white p-6">
+
+  <!-- BOLHAS DE FUNDO -->
+  <!-- são decorativas, ficam atrás de tudo pelo z-index: 0 -->
+  <ul class="bubbles">
+    <li></li><li></li><li></li><li></li><li></li>
+    <li></li><li></li><li></li><li></li><li></li>
+  </ul>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- z-10 garante que fica na frente das bolhas -->
+  <div class="max-w-7xl mx-auto relative z-10">
+
+    <!-- ── HEADER ── -->
+    <header class="flex justify-between items-center mb-8 pb-6 border-b border-slate-800/60">
+      <div class="flex items-center gap-4">
+        <!-- logo -->
+        <img src="https://corumba.digital/assets/c.regular.svg" class="w-8 h-8 opacity-80" onerror="this.style.display='none'">
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight" style="font-family:'Rajdhani',sans-serif">FLEET MONITOR</h1>
+          <p class="text-xs text-slate-500 uppercase tracking-widest">Corumba T.I. — Infraestrutura</p>
+        </div>
+      </div>
+
+      <!-- botão de adicionar — só aparece na aba de impressoras -->
+      <!-- o id permite mostrar/ocultar via JS conforme a aba ativa -->
+      <button
+        id="btn-add-printer"
+        onclick="abrirModalImpressora()"
+        class="bg-blue-600 hover:bg-blue-500 px-6 py-2.5 rounded-xl font-bold uppercase text-sm tracking-wider transition-all"
+      >+ Impressora</button>
+    </header>
+
+    <!-- ── NAVEGAÇÃO DAS ABAS ── -->
+    <nav class="flex gap-6 mb-8 border-b border-slate-800/60 pb-0">
+      <!--
+        cada botão tem:
+        - data-tab="nome-da-aba" → diz qual painel ele controla
+        - a classe "active" é adicionada/removida pelo JS
+      -->
+      <button class="tab-btn active text-white pb-3 font-semibold text-sm uppercase tracking-wider" data-tab="impressoras">
+        🖨️ Impressoras
+      </button>
+      <button class="tab-btn text-slate-500 pb-3 font-semibold text-sm uppercase tracking-wider" data-tab="planta">
+        🗺️ Planta Baixa
+      </button>
+      <button class="tab-btn text-slate-500 pb-3 font-semibold text-sm uppercase tracking-wider" data-tab="computadores">
+        🖥️ Computadores
+      </button>
+    </nav>
+
+    <!-- ── PAINÉIS DAS ABAS ── -->
+
+    <!-- ABA 1: IMPRESSORAS -->
+    <!-- começa com classe "active" porque é a aba padrão -->
+    <div id="tab-impressoras" class="tab-panel active">
+      <div id="arvore" class="space-y-4"></div>
+      <!-- o conteúdo aqui é gerado dinamicamente pelo JavaScript via socket.io -->
+    </div>
+
+    <!-- ABA 2: PLANTA BAIXA -->
+    <div id="tab-planta" class="tab-panel">
+      <div class="flex flex-col items-center justify-center py-24 text-center">
+        <div class="text-6xl mb-4">🗺️</div>
+        <h2 class="text-2xl font-bold text-slate-400 mb-2" style="font-family:'Rajdhani',sans-serif">PLANTA BAIXA</h2>
+        <p class="text-slate-600 text-sm max-w-md">
+          Em breve: mapa interativo com localização de computadores, impressoras e servidores.
+          Clique em qualquer dispositivo para ver seu status em tempo real.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 3: COMPUTADORES -->
+    <div id="tab-computadores" class="tab-panel">
+      <div class="flex flex-col items-center justify-center py-24 text-center">
+        <div class="text-6xl mb-4">🖥️</div>
+        <h2 class="text-2xl font-bold text-slate-400 mb-2" style="font-family:'Rajdhani',sans-serif">COMPUTADORES</h2>
+        <p class="text-slate-600 text-sm max-w-md">
+          Em breve: lista de todos os computadores via Tactical RMM, com status de conexão e velocidade de internet.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- fim .max-w-7xl -->
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- MODAL — ADICIONAR IMPRESSORA              -->
+  <!-- ══════════════════════════════════════════ -->
+  <!--
+    começa com classe "hidden" do Tailwind (display: none)
+    quando o usuário clica em "+ Impressora", removemos essa classe
+  -->
+  <div id="modal-impressora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div class="bg-[#0d1117] border border-slate-700/60 p-8 rounded-2xl w-full max-w-md shadow-2xl">
+      <h2 class="text-2xl font-bold mb-6 text-blue-400" style="font-family:'Rajdhani',sans-serif">NOVA IMPRESSORA</h2>
+      <div class="space-y-3">
+        <input id="in-unit"  placeholder="CLIENTE / UNIDADE"   class="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-xl outline-none focus:border-blue-500 text-sm transition-colors">
+        <input id="in-name"  placeholder="SETOR"               class="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-xl outline-none focus:border-blue-500 text-sm transition-colors">
+        <input id="in-ip"    placeholder="ENDEREÇO IP"         class="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-xl outline-none focus:border-blue-500 text-sm transition-colors">
+        <input id="in-model" placeholder="MODELO (ex: L6270)"  class="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-xl outline-none focus:border-blue-500 text-sm transition-colors">
+        <div class="flex gap-3 pt-2">
+          <button onclick="fecharModalImpressora()" class="flex-1 bg-slate-800 hover:bg-slate-700 p-3.5 rounded-xl font-bold text-sm transition-colors">CANCELAR</button>
+          <button onclick="salvarImpressora()"      class="flex-1 bg-blue-600 hover:bg-blue-500 p-3.5 rounded-xl font-bold text-sm transition-colors">SALVAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- JAVASCRIPT                                -->
+  <!-- ══════════════════════════════════════════ -->
+  <script>
+
+    // ─────────────────────────────────────────
+    // SOCKET.IO — conexão em tempo real
+    // ─────────────────────────────────────────
+
+    const socket = io();
+    // io() conecta automaticamente no mesmo endereço da página
+    // o socket.io injeta o script /socket.io/socket.io.js automaticamente via servidor
+
+    // ouve o evento 'printerUpdate' que o servidor emite a cada 4 segundos
+    socket.on('printerUpdate', data => {
+      renderImpressoras(data);
+      // toda vez que chega dados novos, redesenhamos a aba de impressoras
+    });
+
+
+    // ─────────────────────────────────────────
+    // SISTEMA DE ABAS
+    // ─────────────────────────────────────────
+
+    // pega todos os botões de aba de uma vez
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    // querySelectorAll retorna uma NodeList (parecido com array) de todos elementos com essa classe
+
+    tabBtns.forEach(btn => {
+      // para cada botão, registra um listener de clique
+      btn.addEventListener('click', () => {
+
+        const tabAlvo = btn.dataset.tab;
+        // dataset.tab lê o atributo data-tab do HTML
+        // ex: <button data-tab="impressoras"> → btn.dataset.tab === 'impressoras'
+
+        // ── desativa tudo ──
+        tabBtns.forEach(b => b.classList.remove('active'));
+        // remove a classe active de TODOS os botões
+
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        // remove a classe active de TODOS os painéis (esconde todos)
+
+        // ── ativa o clicado ──
+        btn.classList.add('active');
+        // marca o botão clicado como ativo (linha azul embaixo via CSS)
+
+        document.getElementById('tab-' + tabAlvo).classList.add('active');
+        // mostra o painel correspondente
+        // se tabAlvo = 'impressoras', mostra o elemento com id="tab-impressoras"
+
+        // ── mostra/oculta o botão de adicionar impressora ──
+        // só faz sentido mostrar esse botão na aba de impressoras
+        const btnAdd = document.getElementById('btn-add-printer');
+        btnAdd.style.display = tabAlvo === 'impressoras' ? '' : 'none';
+        // '' = valor padrão (visível) | 'none' = oculto
+      });
+    });
+
+
+    // ─────────────────────────────────────────
+    // ESTADO LOCAL
+    // ─────────────────────────────────────────
+
+    // abertos = lista de unidades (clientes) com o accordion aberto
+    // salvamos no localStorage para manter o estado mesmo ao recarregar a página
+    let abertos = JSON.parse(localStorage.getItem('abertos') || '[]');
+
+
+    // ─────────────────────────────────────────
+    // RENDER — ABA DE IMPRESSORAS
+    // ─────────────────────────────────────────
+
+    function renderImpressoras(data) {
+      // PASSO 1: agrupa as impressoras por unidade (cliente)
+      const grupos = data.reduce((acc, impressora) => {
+        // reduce percorre o array e vai construindo o objeto "acc" (acumulador)
+        const u = impressora.unit || 'GERAL';
+        // se a impressora não tem unidade definida, vai para "GERAL"
+
+        if (!acc[u]) acc[u] = { items: [], err: false };
+        // se esse grupo não existe ainda, cria ele com array vazio e sem erro
+
+        acc[u].items.push(impressora);
+        // adiciona a impressora no grupo correto
+
+        if (impressora.hasError) acc[u].err = true;
+        // se qualquer impressora do grupo tem erro, marca o grupo inteiro como erro
+        // isso serve para a borda pulsante vermelha no accordion
+
+        return acc;
+      }, {});
+      // {} = valor inicial do acumulador (objeto vazio)
+
+      // PASSO 2: gera o HTML de todos os grupos e injeta na div #arvore
+      document.getElementById('arvore').innerHTML = Object.keys(grupos).sort().map(u => {
+        // Object.keys pega os nomes das unidades, .sort() ordena alfabeticamente
+
+        const isOpen = abertos.includes(u);
+        // verifica se esse accordion está aberto ou fechado
+
+        return `
+          <div class="border border-slate-800/60 rounded-2xl overflow-hidden ${grupos[u].err ? 'client-error' : ''}">
+
+            <!-- cabeçalho do accordion — clicável -->
+            <div onclick="toggleGrupo('${u}')" class="flex justify-between items-center p-5 cursor-pointer hover:bg-slate-800/30 transition-all select-none">
+              <div class="flex items-center gap-4">
+                <span class="text-2xl">${isOpen ? '📂' : '📁'}</span>
+                <div>
+                  <h2 class="text-xl font-bold text-blue-400 uppercase tracking-tight" style="font-family:'Rajdhani',sans-serif">${u}</h2>
+                  <p class="text-xs text-slate-500 font-mono">${grupos[u].items.length} DISPOSITIVO${grupos[u].items.length !== 1 ? 'S' : ''}</p>
+                </div>
+              </div>
+              <!-- seta que rotaciona quando aberto -->
+              <span class="text-slate-600 text-sm transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}">▼</span>
+            </div>
+
+            <!-- conteúdo do accordion — mostrado/oculto via classe hidden -->
+            <div class="${isOpen ? 'p-6 border-t border-slate-800/40' : 'hidden'} bg-black/10">
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${grupos[u].items.map(i => cardImpressora(i)).join('')}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+      // .join('') transforma o array de strings HTML em uma string só (sem vírgulas)
+    }
+
+
+    // ─────────────────────────────────────────
+    // TOGGLE — abre/fecha accordion de grupo
+    // ─────────────────────────────────────────
+
+    function toggleGrupo(u) {
+      const idx = abertos.indexOf(u);
+      // indexOf retorna o índice do item, ou -1 se não encontrar
+        //
+      if (idx > -1) {
+        abertos.splice(idx, 1);
+        // splice remove 1 elemento na posição idx
+        // o grupo estava aberto — fecha ele removendo do array
+      } else {
+        abertos.push(u);
+        // o grupo estava fechado — abre ele adicionando no array
+      }
+
+      localStorage.setItem('abertos', JSON.stringify(abertos));
+      // salva o novo estado no localStorage para persistir entre recarregamentos
+      // JSON.stringify converte o array para string (localStorage só aceita strings)
+    }
+
+
+    // ─────────────────────────────────────────
+    // CARD — HTML de uma impressora individual
+    // ─────────────────────────────────────────
+
+    function cardImpressora(i) {
+      // cores para cada toner: K=cinza, C=ciano, M=rosa, Y=amarelo
+      const coresToner = ['bg-slate-400', 'bg-cyan-400', 'bg-pink-500', 'bg-yellow-400'];
+
+      // gera as barras de toner
+      const tonersHTML = i.toners.map((t, idx) => `
+        <div class="bg-black/20 p-2.5 rounded-xl border border-slate-800/60">
+          <div class="flex justify-between text-[10px] font-bold mb-1.5">
+            <span class="text-slate-500">${i.isColor ? ['K','C','M','Y'][idx] : 'TONER'}</span>
+            <span class="${t.isAlert ? 'text-red-500 animate-pulse' : 'text-slate-300'}">${t.label}</span>
+          </div>
+          <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+            <div class="h-full ${coresToner[idx] || 'bg-slate-400'} transition-all duration-500" style="width:${t.percent}%"></div>
+          </div>
+        </div>
+      `).join('');
+
+      return `
+        <div class="bg-[#0d1117] p-5 rounded-2xl border ${i.hasError ? 'border-red-500/60' : 'border-slate-800/60'} relative group hover:border-slate-700 transition-all">
+
+          <!-- botão de deletar — aparece só no hover via group-hover -->
+          <button
+            onclick="event.stopPropagation(); deletarImpressora(${i.id})"
+            class="absolute top-4 right-30 text-slate-700 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all text-lg"
+            title="Remover impressora"
+          >✕</button>
+
+          <!-- cabeçalho do card: nome + indicador de status -->
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="text-lg font-bold uppercase tracking-tight truncate max-w-[160px]" style="font-family:'Rajdhani',sans-serif">${i.name}</h3>
+              <p class="text-xs text-slate-500 font-mono">${i.ip}</p>
+              <p class="text-[10px] text-slate-600 uppercase mt-0.5">${i.model}</p>
+            </div>
+            <!-- bolinha de status: verde=ok, laranja=erro, vermelho=offline -->
+            <div class="flex flex-col items-end gap-1 mt-1">
+              <div class="w-2.5 h-2.5 rounded-full ${
+                i.status === 'offline' ? 'bg-red-600' :
+                i.hasError ? 'bg-orange-500 animate-pulse' :
+                'bg-emerald-500'
+              }"></div>
+              <span class="text-[9px] text-slate-600 uppercase">${
+                i.status === 'offline' ? 'offline' :
+                i.hasError ? 'alerta' : 'online'
+              }</span>
+            </div>
+          </div>
+
+          <!-- banner de erro (só aparece se houver erro) -->
+          ${i.hasError ? `
+            <div class="bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-bold p-2.5 rounded-xl mb-4 uppercase tracking-wide">
+              ⚠️ ${i.errorMessages.join(' · ')}
+            </div>
+          ` : ''}
+
+          <!-- barras de toner -->
+          <div class="grid ${i.isColor ? 'grid-cols-2' : 'grid-cols-1'} gap-2 mb-4">
+            ${tonersHTML}
+          </div>
+
+          <!-- rodapé: papel e contador -->
+          <div class="flex justify-between items-end pt-4 border-t border-slate-800/40">
+            <div>
+              <p class="text-[10px] text-slate-500 uppercase font-bold mb-0.5">PAPEL</p>
+              <p class="text-base font-bold ${i.paper === 'VAZIO' ? 'text-red-500 animate-pulse' : 'text-white'}">
+                ${i.paper === 'VAZIO' ? '⚠ VAZIO' : '✓ OK'}
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-[10px] text-slate-500 uppercase font-bold mb-0.5">TOTAL PÁG.</p>
+              <p class="text-base font-bold text-white font-mono">${i.pageCount.toLocaleString('pt-BR')}</p>
+            </div>
+          </div>
+
+        </div>`;
+    }
+
+
+    // ─────────────────────────────────────────
+    // MODAL — IMPRESSORA
+    // ─────────────────────────────────────────
+
+    function abrirModalImpressora() {
+      document.getElementById('modal-impressora').classList.remove('hidden');
+      // remove o hidden do Tailwind — o modal aparece
+    }
+
+    function fecharModalImpressora() {
+      document.getElementById('modal-impressora').classList.add('hidden');
+      // adiciona o hidden de volta — modal some
+    }
+
+
+    // ─────────────────────────────────────────
+    // API CALLS — CRUD de impressoras
+    // ─────────────────────────────────────────
+
+    async function salvarImpressora() {
+      const body = {
+        unit:  document.getElementById('in-unit').value,
+        name:  document.getElementById('in-name').value,
+        ip:    document.getElementById('in-ip').value,
+        model: document.getElementById('in-model').value
+      };
+      // monta o objeto com os dados dos inputs
+
+      await fetch('/api/printers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // diz para o servidor que estamos enviando JSON
+        body: JSON.stringify(body)
+        // converte o objeto JS para string JSON para enviar
+      });
+
+      fecharModalImpressora();
+      // fecha o modal após salvar
+
+      // limpa os campos para a próxima vez
+      ['in-unit','in-name','in-ip','in-model'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    }
+
+    async function deletarImpressora(id) {
+      if (!confirm('Remover esta impressora?')) return;
+      // confirm abre uma caixa de diálogo nativa do browser
+      // se o usuário clicar em Cancelar, a função para aqui com o return
+
+      await fetch(`/api/printers/${id}`, { method: 'DELETE' });
+      // envia DELETE para /api/printers/123 — o servidor remove do arquivo JSON
+    }
+
+  </script>
+</body>
+</html>
