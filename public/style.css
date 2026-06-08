@@ -121,3 +121,26 @@ body {
     background: #1e293b;
     border-radius: 3px;
 }
+.button-cancelar{
+    background-color: #1e293b;
+    padding: 0.875rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem; 
+    border: none; 
+    cursor: pointer; 
+    color: white; 
+    transition: background-color 0.2s;
+    border: 1px solid #334155;
+}
+.button-salvar{
+    background-color: #2563eb;
+    padding: 0.875rem;
+    border-radius: 0.75rem;
+    font-weight: 700; 
+    font-size: 0.875rem; 
+    border: none; 
+    cursor: pointer; 
+    color: white; 
+    transition: background-color 0.2s;
+    
+}
