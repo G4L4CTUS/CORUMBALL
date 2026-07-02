@@ -144,3 +144,27 @@ body {
     transition: background-color 0.2s;
     
 }
+.botão_add{
+    background-color: #2563eb;
+    padding: 8px 15px;
+    border-radius: 0.75rem;
+    font-weight: 700; 
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em; 
+    transition:background-color 0.2s;
+    cursor: pointer; border: none;
+    color: white;
+}
+.botão_add:hover{
+    background-color: #3b82f6;
+}
+.texto_padrão{
+    font-size: 1.5rem; 
+    font-weight: 700;
+    color: whitesmoke;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

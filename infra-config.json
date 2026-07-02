@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": 1782503342204,
+    "nome": "s",
+    "ip": "s",
+    "tipo": "Roteador",
+    "portas": 5,
+    "dadosPortas": {
+      "5": {
+        "descricao": "neymar",
+        "cor": "#ef4444"
+      }
+    }
+  },
+  {
+    "id": 1782503479176,
+    "nome": "s",
+    "ip": "s",
+    "tipo": "rb",
+    "portas": 5,
+    "dadosPortas": {}
+  }
+]
