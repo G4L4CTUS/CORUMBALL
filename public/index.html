@@ -7,7 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
+    <script src="/Java/RenderImpressoras.js"></Script>
+    <script src="/Java/RenderRecados.js"></script>
+    <script src="/Java/RenderInfra.js"></script>
+    <script src="/Java/RenderComputadores.js"></script>
+    <script src="/Java/Atendimento.js"></script>
+    <script src="/Java/RenderNobreaks.js"></script>
 </head>
 
 <body class="padding-24">
@@ -23,16 +28,16 @@
                 <img src="https://corumba.digital/assets/c.regular.svg" style="width: 2rem; height: 2rem; opacity: 0.8;" onerror="this.style.display='none'">
                 <div>
                     <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em;">CORUMBA_All</h1>
-                    <p style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Corumba T.I</p>
+                    <a href="https://corumba.digital" style="text-decoration: none; font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;">
+                        Corumba soluções em T.I
+                    </a>
                 </div>
             </div>
 
             <button
+                class="botão_add"
                 id="btn-add-printer"
-                onclick="abrirModalImpressora()"
-                style="background-color: #2563eb; padding: 0.625rem 2.5rem; border-radius: 0.75rem; font-weight: 700; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.05em; transition: background-color 0.2s; cursor: pointer; border: none; color: white;"
-                onmouseover="this.style.backgroundColor='#3b82f6'"
-                onmouseout="this.style.backgroundColor='#2563eb'">
+                onclick="abrirModalImpressora()">
                 + Impressora
             </button>
         </header>
@@ -68,6 +73,12 @@
                 style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
                 Atendimentos
             </button>
+            <button
+                class="tab-btn"
+                data-tab="nobreaks"
+                style= "padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+                Nobreaks
+            </button>
             
             
              
@@ -79,11 +90,11 @@
 
         <div id="tab-recados" class="tab-panel" style="display: none;">
              <div style="margin: 2rem auto;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; color: whitesmoke; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <h2 class="texto_padrão">
                     <span></span> MURAL DE AVISOS
                 </h2>
                 <div style="margin-bottom: 1.5rem;">
-                    <button onclick="abrirModalRecado()" style="background-color:  #2563eb; border-radius: 0.75rem; height: 25px; width: 140px; font-weight: 700; text-transform: uppercase; font-size: 12px; color: white; cursor: pointer; transition: 0.2s" onmouseover="this.style.backgroundColor=`#3b82f6`" onmouseout="this.style.backgroundColor=`#2563eb`">
+                    <button class="botão_add" onclick="abrirModalRecado()">
                         + novo recado
                     </button>
                 </div>
@@ -134,7 +145,7 @@
                     style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
                 <input
                     id="in-ip"
-                    placeholder="ENDEREÇO IP"
+                    placeholder="ENDEREÇO IP OU HOSTNAME"
                     style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
                 <input
                     id="in-model"
@@ -166,22 +177,38 @@
     <div class= "fixed bottom-10 right-10 flex flex-col gap-2" >
         <button onclick="adicionarEquipamento('rb')" class="bg-blue-600 hover:bg-blue-500 p-4 rounded-full shadow-lg text-white font-bold">+ RB</button>
         <button onclick="adicionarEquipamento('switch')" class="bg-slate-700 hover:bg-slate-600 p-4 rounded-full shadow-lg text-white font-bold">+ Switch</button>
+        <button onclick="adicionarEquipamento(`Roteador`)" class="bg-green-600 hover:bg-green-500 p-4 rounded-full shadow-lg text-white font-bold">Roteador</button>
     </div>     
 </div>
-<div id="tab-atendimentos" class="tab-panel" display="none">
-    <button
-    onclick="AbrirModalAtendimento()" 
-    style="display:flex; width: 150px; height: 25px; background-color: #2563eb; font-size: 12px; border: none; border-radius: 9px; justify-content: center; align-items: center; position: relative;" > Adicionar atendimentos
+<div id="tab-atendimentos" class="tab-panel" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto 1.5rem auto; width: 100%;">
+        <h2 class="texto_padrão" style="margin-bottom: 0;">Painel de Atendimentos</h2>
+        
+        <div style="display: flex; gap: 10px;">
+            <button onclick="MudarModoAtendimento('abertos')" id="btn-modo-abertos" style="background-color: #2563eb; color: white; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
+                EM ANDAMENTO
+            </button>
+            <button onclick="MudarModoAtendimento('finalizados')" id="btn-modo-finalizados" style="background-color: #1e293b; color: #64748b; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
+                HISTÓRICO (7D)
+            </button>
+        </div>
+    </div>
+
+    <button id="btn-add-atendimento" class="botão_add" onclick="AbrirModalAtendimento()" style="margin-bottom: 1rem;">
+        Adicionar atendimento
     </button>
+    
+    <div id="atendimento_importantes" class="flex flex-wrap justify-center w-full mt-4 mx-auto" style="font-size: 20px; color: aliceblue; max-width: 1280px;">
+        </div>
     <div id="modal-atendimento" style="display: none; color:white; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
         <div style="height: 600px; width: 400px; border-radius: 12px; background-color: #1e293b; position: relative;  font-size: 20px; border: 1px solid #60a5fa; display:flex; flex-direction: column; align-items: center; ">
             <span style=" display: flex; justify-content: center; font-weight: 800; margin-top: 20px;" onmouseover="this.style.color= `white`" onmouseout="this.style.color=`#2563eb`">Proceder do atendimento</span>
             <div style="height: 100%; max-width: 400px; width: 350px;  display: flex; flex-direction: column; gap: 12px; margin-top: 12px; padding: 12px;">
                 <input id="NomeAtendimento" type="text" placeholder="Motivo atendimento" style=" text-align: center; width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box; justify-content: start;">
                  <input id="Local" type="text" placeholder="Local do atendimento" style="text-align: center; width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                 <label id="RtdEqp" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: white;">
+                 <label  style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: white;">
                     <span>Marque se fez a retirada de equipamento</span>
-                    <input type="checkbox">
+                    <input id="RtdEqp" type="checkbox">
                 </label>
                 <label>
                     <span style="font-size: 12px; color: white;">Data de chegada</span>
@@ -189,14 +216,88 @@
                 </label>
                  <textarea name="Atd" id="descricaoAtd" placeholder="Descreva o atendimento, possíveis causas ou soluções" style="text-align: center ; width: 100%; color: black; background-color: #0f172a; border: 1px solid #334155; border-radius: 9px; font-size: 13px; color: white; box-sizing: border-box; height: 100px;"></textarea>
                  <div style="display: flex; flex-direction: row; gap: 80px;align-items:flex-end; margin-top: 70px; padding: 20px;">
-                    <button class="button-cancelar">Cancelar</button>
-
-                    <button class="button-salvar">Salvar</button>
+                    <button onclick="FecharModalAtendimento()" class="button-cancelar">Cancelar</button>
+                    <button onclick="SalvarModalAtendimento()" class="button-salvar">Salvar</button>
                 </div>
 
             </div>
         </div>
     </div>
+    <div id="atendimento-finalizacao" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px); z-index: 100;">
+    <div style="width: 450px; height: 350px; border-radius: 12px; background-color: #1e293b; border: 1px solid #10b981; display: flex; flex-direction: column; align-items: center; padding: 20px; color: white;">
+        
+        <span style="font-weight: 800; margin-top: 10px; color: #10b981; text-transform: uppercase; font-size: 18px;">Finalizar Atendimento</span>
+        <input type="hidden" id="finalizar-id">
+
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; flex-grow: 1;">
+            <label style="font-size: 12px; color: #94a3b8;">O que foi feito para resolver o problema?</label>
+            <textarea id="resolucaoAtd" placeholder="Descreva a solução." style="width: 100%; height: 120px; background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; color: white; font-size: 13px; box-sizing: border-box; resize: none; outline: none;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 20px; width: 100%; justify-content: center; margin-top: auto; padding-bottom: 10px;">
+            <button onclick="FecharModalFinalizacao()" class="button-cancelar">Cancelar</button>
+            <button onclick="EnviarFinalizacao()" class="button-salvar" style="background-color: #10b981;">Concluir</button>
+        </div>
+    </div>
 </div>
+</div>
+<div id="tab-nobreaks" class="tab-panel" style="display: none;" ></div>
+    <div id="modal-nobreak" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
+        <div style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+            <h2 id="titulo-modal-nobreak" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #facc15;" >NOVO NOBREAK</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <input type="hidden" id="nb-id">
+
+                <input id="nb-nome" placeholder="NOME DO EQUIPAMENTO (ex: Nobreak Rack Principal)" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
+                
+                <input id="nb-local" placeholder="CLIENTE / LOCAL (ex: Faturamento)" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
+                
+                <input id="nb-desc" placeholder="DESCRIÇÃO" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
+
+                <div style="display: flex; gap: 0.75rem; padding-top: 0.5rem;">
+                    <button onclick="fecharModalNobreak()" style="flex: 1; background-color: #1e293b; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: white; transition: 0.2s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">CANCELAR</button>
+                    
+                    <button onclick="salvarNobreak()" style="flex: 1; background-color: #eab308; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: #0f172a; transition: 0.2s;" onmouseover="this.style.backgroundColor='#facc15'" onmouseout="this.style.backgroundColor='#eab308'">SALVAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Controle de abas-->
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const tabBtns = document.querySelectorAll('.tab-btn');
+    
+		tabBtns.forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				const tabAlvo = btn.dataset.tab;
+				tabBtns.forEach(function(b) { 
+					b.style.color = '#64748b';
+					b.classList.remove('active');
+				});
+            document.querySelectorAll('.tab-panel').forEach(function(p) { 
+                p.style.display = 'none';
+                p.classList.remove('active');
+            });
+            btn.style.color = 'white';
+            btn.classList.add('active'); 
+            const painelAlvo = document.getElementById('tab-' + tabAlvo); 
+            if (painelAlvo) {
+                painelAlvo.style.display = 'block';
+                painelAlvo.classList.add('active');
+            } else {
+                console.warn(`Painel com id "tab-${tabAlvo}" não foi encontrado no HTML.`);
+            }
+            const btnAdd = document.getElementById('btn-add-printer');
+            if (btnAdd) {
+                if (tabAlvo === 'impressoras') {
+                    btnAdd.style.display = '';
+                } else {
+                    btnAdd.style.display = 'none';
+                }
+            }
+        });
+    });
+});</script>
 </body>
 </html>

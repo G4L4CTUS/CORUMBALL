@@ -87,7 +87,7 @@ async function scanImpressoras(PRINTERS, OIDS) {
             const session = snmp.createSession(printer.ip, 'public', { timeout: 2500, retries: 1 });
             const isColor = printer.model?.toUpperCase().includes('6270');
             const oidsToGet = isColor ? [...OIDS.toners] : [OIDS.toners[0]];
-            oidsToGet.push(OIDS.paperCurrent, OIDS.paperUnitStatus, OIDS.counter, OIDS.status, OIDS.errorState);
+            oidsToGet.push(OIDS.paperCurrent, OIDS.paperUnitStatus, OIDS.counter, OIDS.status, OIDS.errorState, OIDS.modeloImpre);
 
             session.get(oidsToGet, (err, varbinds) => {
                 session.close();
@@ -97,12 +97,17 @@ async function scanImpressoras(PRINTERS, OIDS) {
                         status: 'offline', 
                         hasError: true, 
                         errorMessages: ['OFFLINE'],
-                        toners: [] 
+                        toners: [] ,
+						modeloImpre: 'N/A'
                     });
                 }
                 const tCount = isColor ? 4 : 1;
                 const toners = Array.from({ length: tCount }, (_, i) => parseToner(varbinds[i].value));
                 const errors = detectErrors(varbinds[tCount+3].value, varbinds[tCount+4].value, varbinds[tCount+1].value);
+				let modeloExtraido = 'N/A'
+				if (varbinds[tCount+5] && varbinds[tCount+5].value) {
+                    modeloExtraido = varbinds[tCount+5].value.toString().trim();
+                }
 
                 resolve({
                     ...printer,
@@ -112,7 +117,8 @@ async function scanImpressoras(PRINTERS, OIDS) {
                     paper: (parseInt(varbinds[tCount+1].value) === 0 || parseInt(varbinds[tCount].value) > 0) ? 'OK' : 'VAZIO',
                     pageCount: parseInt(varbinds[tCount+2].value) || 0,
                     errorMessages: errors,
-                    hasError: errors.length > 0
+                    hasError: errors.length > 0,
+					modeloImpre: modeloExtraido
                 });
             });
         });
