@@ -14,7 +14,7 @@ socket.on('computerUpdate', function(data) {
 		html += `<option value="${cliente}">${cliente.toUpperCase()}</option>`;
 	});
 	select.innerHTML = html;
-	select.value = valorSelecionadoAntes; // Mantém o que o usuário já tinha filtrado
+	select.value = valorSelecionadoAntes; 
 }
 
 function aplicarFiltroComputadores() {
@@ -33,6 +33,7 @@ function renderComputadores(data){
             lista.innerHTML = `<p style="color:#64748b;">Nenhum computador encontrado.</p>`;
             return;
         }
+
         lista.innerHTML = data.map(function(pc){
             const corStatus = pc.online ? `#10b981` : `#dc2626`;
             const textoStatus = pc.online ? `ONLINE` : `OFFLINE`;
@@ -49,10 +50,22 @@ function renderComputadores(data){
                         '<span style="font-size:0.5625rem; color:#475569; text-transform:uppercase;">' + textoStatus + '</span>' +
                     '</div>' +
                 '</div>' +
-                '<p style="font-size:0.625rem; color:#64748b; text-transform:uppercase; margim-bottom:0.75rem;">' + (pc.so || 'N/A') + '</p>' +
+                '<p style="font-size:0.625rem; color:#64748b; text-transform:uppercase; margim-bottom:0.75rem;">' + `SO: ` + (pc.so || 'N/A') + '</p>' +
                 '<div style="margin-bottom:0.75rem;">' +
                     '<div style="display:flex; justify-content:space-between; font-size:0.625rem; color:#64748b; margin-bottom:0.25rem; margin-top: 2px;">' +
-                        '<p>' + pc.cpu +'</p>' +
+                        '<p>' +`CPU: `+ pc.cpu +'</p>' +
+                    '</div>' +
+					'<div style="display:flex; justify-content:space-between; font-size:0.625rem; color:#64748b; margin-bottom:0.25rem; margin-top: 2px;">' +
+                        '<p>' + `PLACA DE VIDEO: ` + pc.placadevideo +'</p>' +
+                    '</div>' +
+					'<div style="display:flex; justify-content:space-between; font-size:0.625rem; color:#64748b; margin-bottom:0.25rem; margin-top: 2px;">' +
+                        '<p>' +`ARMAZENAMENTO: `+ pc.armazenamento +'</p>' +
+                    '</div>' +
+					'<div style="display:flex; justify-content:space-between; font-size:0.625rem; color:#64748b; margin-bottom:0.25rem; margin-top: 2px;">' +
+                        '<p>' +`PLACA MÂE: `+  pc.placamae +'</p>' +
+                    '</div>' +
+					'<div style="display:flex; justify-content:space-between; font-size:0.625rem; color:#64748b; margin-bottom:0.25rem; margin-top: 2px;">' +
+                        '<p>' +`MEMÓRIA RAM: `+  pc.ramtotal +'</p>' +
                     '</div>' +
                 '</div>' +
                 '<div style="display:flex; justify-content:space-between; font-size:0.625rem; color:#64748b; padding-top:0.75rem; border-top:1px solid rgba(30,41,59,0.4);">'+

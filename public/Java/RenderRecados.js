@@ -24,7 +24,7 @@ socket.on('recadosUpdate', function(data) {
                 <h4 style="font-size: 0.9rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem;overflow-wrap: break-word; word-break: break-all;">${item.titulo}</h4>
                     <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4; overflow-wrap: break-word; word-break: break-all;">${item.mensagem}</p>
                     <div style="margin-bottom: 7px;margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; position:">
-                        <span style="font-size: 0.70rem; color: #475569; font-style: italic;">Por: ${item.autor || 'Sistema'}</span>
+                        <span style="font-size: 0.70rem; color: #475569; font-style: italic; overflow-wrap: break-word; word-break: word-all">Por: ${item.autor || 'Sistema'}</span>
                     </div>
                 </div> `;           
             }).join('');

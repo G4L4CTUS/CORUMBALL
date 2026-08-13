@@ -171,6 +171,15 @@ function cardImpressora(impressora) {
         '</div>' +
     '</div>';
 }
+function toggleGrupoNobreak(idGrupo){
+	const gaveta = document.getElementById(idGrupo);
+	if (!gaveta) return;
+	if (gaveta.style.display === 'none'){
+		gaveta.style.display = 'grid';
+	} else {
+		gaveta.style.display = 'none';
+	}
+}
 
 document.addEventListener('mouseover', function(evento) {
     const card = evento.target.closest('.card-impressora');

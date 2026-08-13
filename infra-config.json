@@ -1,23 +1,44 @@
 [
   {
-    "id": 1782503342204,
-    "nome": "s",
-    "ip": "s",
+    "id": 1785012287058,
+    "nome": "124124",
+    "ip": "241241",
     "tipo": "Roteador",
     "portas": 5,
     "dadosPortas": {
-      "5": {
-        "descricao": "neymar",
+      "1": {
+        "descricao": "VCT",
+        "cor": "#ef4444"
+      },
+      "2": {
+        "descricao": "CRALO",
+        "cor": "#ef4444"
+      },
+      "4": {
+        "descricao": "Disponível",
+        "cor": "#10b981"
+      }
+    }
+  },
+  {
+    "id": 1785156734286,
+    "nome": "Intelbras",
+    "ip": "10.10.10.X",
+    "tipo": "switch",
+    "portas": 24,
+    "dadosPortas": {
+      "1": {
+        "descricao": "meu pc",
         "cor": "#ef4444"
       }
     }
   },
   {
-    "id": 1782503479176,
-    "nome": "s",
-    "ip": "s",
+    "id": 1785156781010,
+    "nome": "Comercial RB",
+    "ip": "meu ip",
     "tipo": "rb",
-    "portas": 5,
+    "portas": 10,
     "dadosPortas": {}
   }
 ]
