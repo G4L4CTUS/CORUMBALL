@@ -30,7 +30,7 @@ function renderNobreaks(data) {
                         + Novo Nobreak
                     </button>
                 </div>
-                <div id="lista-nobreaks" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+                <div id="lista-nobreaks" style="display: flex; flex-direction: column; gap: 1rem;"></div>
             </div>
         `;
         container = document.getElementById('lista-nobreaks');
@@ -40,9 +40,21 @@ function renderNobreaks(data) {
         container.innerHTML = `<p style="color:#64748b;">Nenhum nobreak encontrado.</p>`; 
         return;
     }
+	const grupoPorCliente = {};
+	data.forEach(item=>{
+	const nomeCliente = item.local || 'Geral';
+	if (!grupoPorCliente[nomeCliente]){
+	grupoPorCliente[nomeCliente] = [];
+	}
+	grupoPorCliente[nomeCliente].push(item);
+	});
+	container.innerHTML = '';
+	
+	Object.keys(grupoPorCliente).forEach((cliente, index) => {
+		const nobreaksDoCliente = grupoPorCliente[cliente];
+		const idGaveta = `grupo-nobreak-${index}`;
 
-    container.innerHTML = data.map(function(item) {
-        return `
+    const cardsHTML = nobreaksDoCliente.map(item =>`
         <div style="background-color: #0f172a; border-left: 4px solid #facc15; padding: 1rem; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 4px 6px rgba(0,0,0,0.3); position: relative;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <span style="font-size: 0.65rem; font-weight: 800; color: #facc15; text-transform: uppercase; letter-spacing: 0.05em;">
@@ -54,8 +66,40 @@ function renderNobreaks(data) {
             <h4 style="font-size: 1.1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem; overflow-wrap: break-word; word-break: break-all;">${item.nome}</h4>
             <p style="font-size: 0.85rem; color: #e2e8f0; margin-bottom: 0.25rem; overflow-wrap: break-word;"><strong>Local:</strong> ${item.local}</p>
             <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4; overflow-wrap: break-word; word-break: break-all;">${item.desc || 'Sem descrição'}</p>
-        </div>`;           
-    }).join('');
+        </div>`  
+    ).join('');
+	const blocoCliente = `
+	<div style="background-color: #1e293b; border: 1px solid rgba(250, 204, 33, 0.3); border-radius: 1rem; padding: 1rem; transition: 0.2s;">
+                <div onclick="toggleGrupoNobreak('${idGaveta}')" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2rem;">📁</span>
+                        <h3 style="color: white; font-weight: 700; font-size: 1.1rem; margin: 0; text-transform: uppercase;">${cliente}</h3>
+                    </div>
+                    
+                    <!-- Contador de quantos nobreaks tem nesse cliente -->
+                    <span style="background-color: #0f172a; color: #facc15; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 12px; border: 1px solid #facc15;">
+                        ${nobreaksDoCliente.length} ${nobreaksDoCliente.length === 1 ? 'Nobreak' : 'Nobreaks'} 🔽
+                    </span>
+                </div>
+
+                <!-- A GAVETA INVISÍVEL: Note o 'display: none'. É ela que vai abrir/fechar! -->
+                <div id="${idGaveta}" style="display: none; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+                    ${cardsHTML}
+                </div>
+
+            </div>
+	`;
+	container.innerHTML += blocoCliente;
+	});
+}
+function toggleGrupoNobreak(idGrupo) {
+    const gaveta = document.getElementById(idGrupo);
+    if (!gaveta) return;
+    if (gaveta.style.display === 'none' || gaveta.style.display === '') {
+        gaveta.style.display = 'grid';
+    } else {
+        gaveta.style.display = 'none';
+    }
 }
 function abrirModalEditar(id){
 	const nobreak = nobreaksMemoria.find(nb => nb.id == id);

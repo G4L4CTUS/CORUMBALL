@@ -4,11 +4,14 @@ const { Server } = require('socket.io');
 const fs         = require('fs');
 const path       = require('path');
 const dns        = require('dns').promises
+const {Client, LocalAuth} = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
 
 // ── Importação dos Módulos Especialistas ──────────────────────────────────────
 const printerScanner = require('./modules/printerScanner');
 const infraScanner   = require('./modules/infraScanner');
 const tacticalScanner = require('./modules/tacticalScanner');
+
 
 // ── Inicialização ─────────────────────────────────────────────────────────────
 
@@ -51,6 +54,9 @@ let INFRA = fs.existsSync(INFRA_FILE) ? JSON.parse(fs.readFileSync(INFRA_FILE, '
 
 const NOBREAKS_FILE = path.join(__dirname, 'nobreaks-config.json');
 let NOBREAKS = fs.existsSync(NOBREAKS_FILE) ? JSON.parse(fs.readFileSync(NOBREAKS_FILE, 'utf8')) : [];
+
+const CONTATOS_FILE = path.join(__dirname, 'contatos-config.json');
+let CONTATOS = fs.existsSync(CONTATOS_FILE) ? JSON.parse(fs.readFileSync(CONTATOS_FILE, 'utf8')) : [];
 
 // ── Parâmetros Globais SNMP e API ──────────────────────────────────────────────
 
@@ -121,7 +127,36 @@ io.on('connection', (socket) => {
 	socket.emit(`atendimentosUpdate`, ATENDIMENTOS.filter(a=>!a.finalizado));
 });
 
+// ─────────────whatsapp web───────────────────────────────────────────────
+console.log('Iniciando o zap zap');
+const wppClient = new Client({authStrategy: new LocalAuth()});
+wppClient.on('qr', (qr)=>{
+	console.log('\n Scaneie o qr code para conectar e ativar notificações via zap zap');
+	qrcode.generate(qr, {small: true});
+});
+wppClient.on('ready', ()=>{
+	console.log('zap zap conectado')
+});
+wppClient.initialize();
+async function enviarNoti(numero, mensagem){
+	if (!numero) return;
+	try {
+		let numeroLimpo = numero.replace(/\D/g, '');
+		if (!numeroLimpo.startsWith('55')){
+			numeroLimpo = '55' + numeroLimpo;
+		}
+		const chatId = `${numeroLimpo}@c.us`;
+		await wppClient.sendMessage(chatId, mensagem);
+		console.log(`Notificação enviada com sucesso para: ${numeroLimpo}`);
+	} catch (erro) {console.error('Erro ao enviar a notificação:', erro.message);
+	}
+}
+
+
 // ── Rotas REST API ────────────────────────────────────────────────────────────
+
+const rotasCarros = require('./public/Java/Carros');
+app.use('/api/carros', rotasCarros);
 
 app.get('/api/infra', (req, res) => res.json(INFRA));
 
@@ -207,7 +242,7 @@ app.get('/api/atendimentos', (req, res) => {
 });
 
 app.post('/api/atendimentos', (req, res) => {
-    const { NomeAtendimento, Local, RtdEqp, DataChegada, descricaoAtd } = req.body;
+    const { NomeAtendimento, Local, RtdEqp, DataChegada, descricaoAtd, numeroWpp } = req.body;
     if (!NomeAtendimento || !Local || !DataChegada || !descricaoAtd) {
         return res.status(400).json({ error: "Todos os campos são obrigatórios" });
     }
@@ -220,7 +255,7 @@ app.post('/api/atendimentos', (req, res) => {
         descricao: descricaoAtd,
         finalizado: false,        
         dataFinalizado: null,    
-        resolucao: null         
+        resolucao: null
     };
 
     ATENDIMENTOS.unshift(Novo_Atendimento);
@@ -228,6 +263,11 @@ app.post('/api/atendimentos', (req, res) => {
     
     fs.writeFileSync(ATENDIMENTOS_FILE, JSON.stringify(ATENDIMENTOS, null, 2));
     io.emit('atendimentosUpdate', ATENDIMENTOS.filter(a => !a.finalizado));
+ 
+	if (numeroWpp) {
+        const textoAlerta = `🛠️ *NOVO CHAMADO DE T.I.*\n\n🖥️ *Motivo:* ${NomeAtendimento}\n📍 *Local:* ${Local}\n📄 *Detalhes:* ${descricaoAtd}`;
+        enviarNoti(numeroWpp, textoAlerta);
+    }
     res.status(201).json(Novo_Atendimento);
 });
 app.put('/api/atendimentos/:id/finalizar', (req, res) => {
@@ -282,6 +322,24 @@ app.delete('/api/nobreaks/:id', (req, res)=>{
     fs.writeFileSync(NOBREAKS_FILE, JSON.stringify(NOBREAKS, null, 2));
     res.json({ ok: true });
 });
+
+app.get('/api/contatos',(req, res) => res.json(CONTATOS));
+
+app.post('/api/contatos', (req, res) => {
+	const {nome, numero} = req.body;
+	if (!nome || !numero) return res.status(400).json({error: 'Nome e número são obrigatórios'});
+	
+	const novoContato = {id: Date.now(), nome, numero};
+	CONTATOS.push(novoContato);
+	fs.writeFileSync(CONTATOS_FILE, JSON.stringify(CONTATOS, null, 2));
+	res.status(201).json(novoContato);
+});
+app.delete('/api/contatos/:id',(req,res)=>{
+	CONTATOS = CONTATOS.filter(c => c.id != req.params.id);
+	fs.writeFileSync(CONTATOS_FILE, JSON.stringify(CONTATOS, null, 2));
+	res.json({ok: true});
+});
+
 
 setInterval(() => {
     const SETE_DIAS_EM_MS = 7 * 24 * 60 * 60 * 1000; 

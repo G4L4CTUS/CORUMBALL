@@ -13,6 +13,8 @@
     <script src="/Java/RenderComputadores.js"></script>
     <script src="/Java/Atendimento.js"></script>
     <script src="/Java/RenderNobreaks.js"></script>
+    <script src="/Java/Contatos.js"></script>
+    <script src="/Java/carros-tela.js"></script>
 </head>
 
 <body class="padding-24">
@@ -27,7 +29,7 @@
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <img src="https://corumba.digital/assets/c.regular.svg" style="width: 2rem; height: 2rem; opacity: 0.8;" onerror="this.style.display='none'">
                 <div>
-                    <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em;">CORUMBA_All</h1>
+                    <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em;">CORUMBAll</h1>
                     <a href="https://corumba.digital" style="text-decoration: none; font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;">
                         Corumba soluções em T.I
                     </a>
@@ -79,7 +81,12 @@
                 style= "padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
                 Nobreaks
             </button>
-            
+            <button
+            class="tab-btn"
+            data-tab="carros"
+            style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+                Carros
+            </button>
             
              
         </nav>
@@ -215,7 +222,14 @@
                     <input id="DataChegada" type="datetime-local" style="background-color: #1e293b; width: 260px; height: 30px; border: 1px solid white; border-radius: 12px; padding: 7px;">
                 </label>
                  <textarea name="Atd" id="descricaoAtd" placeholder="Descreva o atendimento, possíveis causas ou soluções" style="text-align: center ; width: 100%; color: black; background-color: #0f172a; border: 1px solid #334155; border-radius: 9px; font-size: 13px; color: white; box-sizing: border-box; height: 100px;"></textarea>
-                 <div style="display: flex; flex-direction: row; gap: 80px;align-items:flex-end; margin-top: 70px; padding: 20px;">
+                    <div class="caixa-whatsapp" style="margin-top: 15px; width: 100%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label class="label-whatsapp" style="font-size: 0.8rem; color: #94a3b8;">Notificar no WhatsApp:</label>
+            <button onclick="abrirModalContatos()" style="background: none; border: none; color: #60a5fa; cursor: pointer; font-size: 0.75rem; font-weight: 700;">⚙️ GERENCIAR NÚMEROS</button>
+                </div>
+                    <select id="wpp-atendimento" class="seletor-whatsapp" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.7rem; color: white; outline: none; cursor: pointer;"></select>
+                </div>
+                 <div style="display: flex; flex-direction: row; gap: 150px;align-items:flex-end; margin-top: 20px;">
                     <button onclick="FecharModalAtendimento()" class="button-cancelar">Cancelar</button>
                     <button onclick="SalvarModalAtendimento()" class="button-salvar">Salvar</button>
                 </div>
@@ -261,6 +275,103 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div id="modal-contatos" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 60; padding: 1rem;">
+    <div style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 25rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.2rem; font-weight: 700; color: #60a5fa; margin: 0;">📱 CONTATOS T.I.</h2>
+            <button onclick="fecharModalContatos()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✖</button>
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-direction: column;">
+            <input id="novo-ctt-nome" placeholder="Nome (ex: João T.I.)" style="flex: 1; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.5rem; color: white; outline: none; font-size: 0.8rem;">
+            <input id="novo-ctt-num" placeholder="DDD+Número" style="flex: 1; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.5rem; color: white; outline: none; font-size: 0.8rem;">
+            <button onclick="salvarContato()" style="background-color: #10b981; color: white; border: none; padding: 0 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 700;">Adicionar +</button>
+        </div>
+
+        <div id="lista-contatos-salvos" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
+            </div>
+
+    </div>
+</div>
+
+<div id="tab-carros" class="tab-panel" style="display: none; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Gestão de Frota</h2>
+        <button id="btn-novo-checklist" style="padding: 10px 20px; background-color: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; z-index: 10;">
+            + Novo Checklist
+        </button>
+    </div>
+
+    <div id="lista-checklists" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+    </div>
+</div>
+<div id="modal-checklist" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
+
+    <div style="background-color: #0f172a; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 30px; border-radius: 8px; position: relative;">
+        
+        <span id="fechar-modal-carro" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: whitesmoke;">&times;</span>
+        <h2 style="text-align: center; color: #3b82f6; margin-bottom: 20px;">CHECKLIST DOS CARROS</h2>
+        
+        <form id="form-checklist">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label style="font-size: 12px; color: white;">PLACA</label>
+                    <input type="text" id="carro-placa" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: white;">HODÔMETRO *</label>
+                    <input type="number" id="carro-hodometro" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: white;">MOTORISTA</label>
+                    <input type="text" id="carro-motorista" placeholder="Nome e Sobrenome" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: white;">TIPO DE CHECK LIST *</label>
+                    <select id="carro-tipo" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
+                        <option value="Periódico">Periódico</option>
+                        <option value="Mensal">Mensal</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #e2e8f0;">
+
+            <div style="background-color: #334155; padding: 20px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 15px;">
+                <h3 style="margin-top: 0; color: white;">MANUTENÇÃO</h3>
+                <p style="font-size: 12px; color: white; margin-bottom: 10px;">MARQUE O QUE FOI VERIFICADO:</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px; color: white">
+                    <label><input type="checkbox" name="manutencao" value="Óleo"> Óleo</label>
+                    <label><input type="checkbox" name="manutencao" value="Água do Radiador"> Água do Radiador</label>
+                    <label><input type="checkbox" name="manutencao" value="Água do Para-brisa"> Água do Para-brisa</label>
+                </div>
+                
+                <label style="margin-top: 20px; display: block; font-size: 12px; color: white;">OBS:</label>
+                <textarea id="carro-obs" rows="4" placeholder="Digite aqui..." style="width: 100%; border: 1px solid #3b82f6; border-radius: 4px; padding: 10px; margin-top: 5px; background-color: #0f172a"></textarea>
+            </div>
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #e2e8f0;">
+           <div style="display: flex; flex-direction: column; gap: 10px; color: white; background-color:  #334155; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+                <h3 style="margin-top: 0; color: white;"> BATIDOS/AMASSADOS</h3>
+                <p style="font-size: 24px; color: white; margin-bottom: 10px;"> Marque os locais avariados</p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <label><input type="checkbox" name="batidos" value="Frente"> Frente</label>
+                    <label><input type="checkbox" name="batidos" value="Lateral direita"> Lateral direita</label>
+                    <label><input type="checkbox" name="batidos" value="lateral esquerda"> Lateral esquerda</label>
+                    <label><input type="checkbox" name="batidos" value="Traseira"> Traseira</label>
+                </div>
+                <label style=" font-size: 24px; margin-top: 20px; display: block; font-size: 12px; color: white; ">Descrição das marcas de guerra </label>
+                <textarea id="obsBatidas" rows="4" placeholder="Descreva com detalhes aqui" style="width: 100%; border: 1px solid  #3b82f6; border-radius: 4px; padding: 10px; margin-top: 5px; background-color: #0f172a" ;"> </textarea>
+
+            </div>
+            <button type="submit" style="width: 100%; padding: 15px; background: #10b981; color: white; border: none; border-radius: 5px; margin-top: 10px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                SALVAR CHECKLIST
+            </button>
+        </form>
     </div>
 </div>
 <!--Controle de abas-->

@@ -91,6 +91,29 @@ body {
 .tab-panel.active {
     display: block;
 }
+.caixa-whatsapp {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.label-whatsapp {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.seletor-whatsapp {
+    width: 100%;
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    padding: 0.7rem;
+    border-radius: 0.7rem;
+    color: white;
+    outline: none;
+    cursor: pointer;
+}
 
 /* animações p erros*/
 @keyframes pulse-err {

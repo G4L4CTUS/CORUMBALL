@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1786542914571,
+    "dataRegistro": "12/08/2026, 10:55:14",
+    "placa": "21",
+    "hodometro": "213",
+    "motorista": "xxxxxxxxx",
+    "tipo": "Periódico",
+    "manutencao": [
+      "Óleo",
+      "Água do Para-brisa"
+    ],
+    "obs": "",
+    "batidos": [
+      "Lateral direita",
+      "lateral esquerda",
+      "Traseira"
+    ],
+    "obsbatidas": " "
+  },
+  {
+    "id": 1786540702758,
+    "dataRegistro": "12/08/2026, 10:18:22",
+    "placa": "adas",
+    "hodometro": "23",
+    "motorista": "asdad",
+    "tipo": "Periódico",
+    "manutencao": [
+      "Óleo",
+      "Água do Radiador"
+    ],
+    "obs": ""
+  }
+]

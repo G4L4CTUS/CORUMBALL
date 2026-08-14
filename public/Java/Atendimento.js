@@ -29,12 +29,14 @@ async function SalvarModalAtendimento(){
             alert("Todos os campos obrigatórios têm que ser preenchidos");
             return;
         }
+		const numeroWpp = document.getElementById('wpp-atendimento').value;
         const Novo_Atendimento = {
             NomeAtendimento: nomeAtendimento,
             Local: local,
             RtdEqp: rtdEqp,
             DataChegada: dataChegada,
-            descricaoAtd: descricaoAtd
+            descricaoAtd: descricaoAtd,
+			numeroWpp: numeroWpp
         };
 
         const resposta = await fetch('/api/atendimentos', {
