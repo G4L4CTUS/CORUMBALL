@@ -1,4 +1,7 @@
 
+socket.on('atualizarNobreaksGlobais',()=>{
+	carregarNobreaks();
+});
 document.addEventListener('DOMContentLoaded', carregarNobreaks);
 
 let nobreaksMemoria = [];

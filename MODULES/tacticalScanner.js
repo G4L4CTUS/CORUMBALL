@@ -1,7 +1,7 @@
 const axios = require('axios');
-const fs = require('fs');
 const path = require('path');
-
+const fs = require('fs');
+	
 const CACHE_FILE = path.join(__dirname, 'ram_cache.json');
 let ramCache = {};
 
@@ -57,6 +57,13 @@ async function atualizarRamSeMudou(urlBase, agent, apiKey) {
 }
 
 async function scanComputadores(UrlTactical, ApiKey) {
+	if (!process.env.TACTICAL_URL || !process.env.TACTICAL_API_KEY){
+		console.warn(`[alerta] RMM desativado`)
+		return{
+			erro: true,
+			status: 503,
+			mensagem: "Sem as credencias necessárias do RMM"};
+	}
     try {
         const urlBase = UrlTactical.replace(/\/agents\/?$/, '').replace(/\/$/, '');
 
