@@ -20,8 +20,17 @@ const server = http.createServer(app);
 const io     = new Server(server);
 const PORT   = process.env.PORT || 3000;
 
+app.set('io', io);
+
 const basicAuth = require('express-basic-auth');
 require('dotenv').config();
+	if (!process.env.CORUMBA_USER || !process.env.CORUMBA_PASS){
+		console.error(`\n======================================================================================`);
+		console.error(`Sem usuário e senha definidos`);
+		console.error(`defina eles dentro do .env como: CORUMBA_USER e CORUMBA_PASS`)
+		process.exit(1);
+	};
+
 app.use(basicAuth({
     users: { [process.env.CORUMBA_USER]: process.env.CORUMBA_PASS },
     challenge: true,
@@ -45,15 +54,8 @@ const PRINTERS_FILE = path.join(__dirname, 'printers-config.json');
 let PRINTERS = [];
 try { PRINTERS = JSON.parse(fs.readFileSync(PRINTERS_FILE, 'utf8')); } catch { fs.writeFileSync(PRINTERS_FILE, '[]'); }
 
-const RECADOS_FILE = path.join(__dirname, `recados-config.json`);
-let RECADOS=[];
-try{ RECADOS = JSON.parse(fs.readFileSync(RECADOS_FILE, `utf8`)); } catch{ fs.writeFileSync(RECADOS_FILE, `[]`); }
-
 const INFRA_FILE = path.join(__dirname, 'infra-config.json');
 let INFRA = fs.existsSync(INFRA_FILE) ? JSON.parse(fs.readFileSync(INFRA_FILE, 'utf8')) : [];
-
-const NOBREAKS_FILE = path.join(__dirname, 'nobreaks-config.json');
-let NOBREAKS = fs.existsSync(NOBREAKS_FILE) ? JSON.parse(fs.readFileSync(NOBREAKS_FILE, 'utf8')) : [];
 
 const CONTATOS_FILE = path.join(__dirname, 'contatos-config.json');
 let CONTATOS = fs.existsSync(CONTATOS_FILE) ? JSON.parse(fs.readFileSync(CONTATOS_FILE, 'utf8')) : [];
@@ -104,10 +106,14 @@ async function rodarScanInfra() {
 }
 
 async function scanComputadores() {
-    const computadoresOrdenados = await tacticalScanner.scanComputadores(TACTICAL_URL, TACTICAL_API_KEY);
-    if (computadoresOrdenados) {
-        io.emit('computerUpdate', computadoresOrdenados);
-    }
+    const resultado = await tacticalScanner.scanComputadores(TACTICAL_URL, TACTICAL_API_KEY);
+	if (resultado) {
+		if(resultado.erro === true){
+			io.emit(`computerError`, resultado);
+		} else {
+			io.emit(`computerUpdate`, resultado);
+		}
+	}
 }
 
 // ── Loops e Inicialização das Instâncias ──────────────────────────────────────
@@ -122,7 +128,6 @@ scanComputadores();
 io.on('connection', (socket) => {
     console.log('🔌 Novo cliente conectado');
     socket.emit('printerUpdate', PRINTERS); 
-    socket.emit('recadosUpdate', RECADOS);   
     scanComputadores(); 
 	socket.emit(`atendimentosUpdate`, ATENDIMENTOS.filter(a=>!a.finalizado));
 });
@@ -155,8 +160,14 @@ async function enviarNoti(numero, mensagem){
 
 // ── Rotas REST API ────────────────────────────────────────────────────────────
 
-const rotasCarros = require('./public/Java/Carros');
+const rotasCarros = require('./public/Java/Rotas/Carros');
 app.use('/api/carros', rotasCarros);
+
+const rotasRecados = require('./public/Java/Rotas/Recados');
+app.use('/api/recados', rotasRecados);
+
+const rotasNobreaks = require('./public/Java/Rotas/Nobreaks');
+app.use('/api/nobreaks', rotasNobreaks);
 
 app.get('/api/infra', (req, res) => res.json(INFRA));
 
@@ -204,35 +215,6 @@ app.get('/api/status', (_req, res) => res.json({
     impressoras: PRINTERS.length,
     uptime: Math.floor(process.uptime()) + 's'
 }));
-
-app.get(`/api/recados`, (req, res) => res.json(RECADOS));
-
-app.post(`/api/recados`, (req, res) => {
-    const { titulo, mensagem, urgente, autor, data } = req.body;
-    if (!titulo || !mensagem) return res.status(400).json({ error: `Titulo e mensagem são obrigatórios` });
-    
-    const novoRecado = {
-        id: Date.now(), 
-        titulo,
-        mensagem,
-        urgente: urgente || false,
-        autor: autor || 'Sistema',
-        data: data || new Date().toISOString()
-    };
-    RECADOS.unshift(novoRecado);
-    RECADOS.sort((a, b) => (a.urgente === b.urgente) ? 0 : a.urgente ? -1 : 1);
-    if (RECADOS.length > 50) RECADOS.pop();
-    fs.writeFileSync(RECADOS_FILE, JSON.stringify(RECADOS, null, 2));
-    io.emit(`recadosUpdate`, RECADOS);
-    res.status(201).json(novoRecado);
-});
-
-app.delete(`/api/recados/:id`, (req, res) => {
-    RECADOS = RECADOS.filter(r => r.id != req.params.id);
-    fs.writeFileSync(RECADOS_FILE, JSON.stringify(RECADOS, null, 2));
-    io.emit(`recadosUpdate`, RECADOS);
-    res.json({ ok: true });
-});
 app.get('/api/atendimentos', (req, res) => {
     const {status} = req.query;
 	if(status===`finalizados` || status === `finalizado`){
@@ -291,38 +273,6 @@ app.delete('/api/atendimentos/:id', (req, res) => {
     io.emit('atendimentosUpdate', ATENDIMENTOS.filter(a => !a.finalizado));
     res.json({ ok: true });
 });
-app.get('/api/nobreaks', (req, res) => res.json(NOBREAKS));
-
-app.post('/api/nobreaks', (req, res)=>{
-    const { nome, desc, local } = req.body;
-    if(!nome || !local) return res.status(400).json({error: 'Nome e local são obrigatórios'});
-    const novoNobreak = { id: Date.now(), nome, desc, local };
-    NOBREAKS.push(novoNobreak);
-    fs.writeFileSync(NOBREAKS_FILE, JSON.stringify(NOBREAKS, null, 2));
-    res.status(201).json(novoNobreak);
-});
-app.put('/api/nobreaks/:id', (req, res)=>{
-	const {nome, desc, local} = req.body;
-	const nobreakEncontrado = NOBREAKS.find(n => n.id == req.params.id);
-	
-	if (nobreakEncontrado) {
-		nobreakEncontrado.nome = nome;
-		nobreakEncontrado.local = local;
-		nobreakEncontrado.desc = desc;
-		
-		fs.writeFileSync(NOBREAKS_FILE, JSON.stringify(NOBREAKS, null, 2));
-		res.json({ok:true, nobreak: nobreakEncontrado});
-	} else {
-		res.status(404).json({error: 'Nobreak não encontrado'});
-	}
-});
-
-app.delete('/api/nobreaks/:id', (req, res)=>{
-    NOBREAKS = NOBREAKS.filter(n => n.id != req.params.id);
-    fs.writeFileSync(NOBREAKS_FILE, JSON.stringify(NOBREAKS, null, 2));
-    res.json({ ok: true });
-});
-
 app.get('/api/contatos',(req, res) => res.json(CONTATOS));
 
 app.post('/api/contatos', (req, res) => {
