@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,84 +20,70 @@
 
 <body class="padding-24">
     <ul class="bubbles">
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li><li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
     </ul>
 
-    <div style="max-width: 1280px; margin-left: auto; margin-right: auto; position: relative; z-index: 10;" class="px-6">
+    <div class="px-6 corpo">
 
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(30, 41, 59, 0.6);">
+        <header>
             <div style="display: flex; align-items: center; gap: 1rem;">
-                <img src="https://corumba.digital/assets/c.regular.svg" style="width: 2rem; height: 2rem; opacity: 0.8;" onerror="this.style.display='none'">
+                <img src="https://corumba.digital/assets/c.regular.svg" style="width: 2rem; height: 2rem; opacity: 0.8;"
+                    onerror="this.style.display='none'">
                 <div>
                     <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em;">CORUMBAll</h1>
-                    <a href="https://corumba.digital" style="text-decoration: none; font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;">
+                    <a href="https://corumba.digital"
+                        style="text-decoration: none; font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;">
                         Corumba soluções em T.I
                     </a>
                 </div>
             </div>
 
-            <button
-                class="botão_add"
-                id="btn-add-printer"
-                onclick="abrirModalImpressora()">
+            <button class="botão_add" id="btn-add-printer" onclick="abrirModalImpressora()">
                 + Impressora
             </button>
         </header>
 
-        <nav style="display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(30, 41, 59, 0.6); padding-bottom: 0;">
-            <button
-                class="tab-btn active"
-                data-tab="impressoras"
-                style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: white;">
+        <nav>
+            <button class="tab-btn active" data-tab="impressoras">
                 Impressoras
             </button>
-            <button
-                class="tab-btn"
-                data-tab="computadores"
-                style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+            <button class="tab-btn" data-tab="computadores">
                 Computadores
             </button>
-            <button
-                class="tab-btn"
-                data-tab="Rb"
-                style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+            <button class="tab-btn" data-tab="Rb">
                 Infraestrura
             </button>
-            <button
-                class="tab-btn"
-                data-tab="recados"
-                style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+            <button class="tab-btn" data-tab="recados">
                 Quadro de recados
             </button>
-            <button
-                class="tab-btn"
-                data-tab="atendimentos"
-                style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+            <button class="tab-btn" data-tab="atendimentos">
                 Atendimentos
             </button>
-            <button
-                class="tab-btn"
-                data-tab="nobreaks"
-                style= "padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+            <button class="tab-btn" data-tab="nobreaks">
                 Nobreaks
             </button>
-            <button
-            class="tab-btn"
-            data-tab="carros"
-            style="padding-bottom: 0.75rem; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; background: none; border: none; cursor: pointer; color: #64748b;">
+            <button class="tab-btn" data-tab="carros">
                 Carros
             </button>
-            
-             
+
+
         </nav>
-<!-- essa parte do código é para os paineis, todo painel novo te que ter um "tab-panel" para ser a identificação de qual painel está sendo selecionado, o que estiver selecionado terá o "activate" na frente, ele fará com que os outros paineis sejam display: none. adicionando eles numa lista de paineis desativados-->
+        <!-- essa parte do código é para os paineis, todo painel novo te que ter um "tab-panel" para ser a identificação de qual painel está sendo selecionado, o que estiver selecionado terá o "activate" na frente, ele fará com que os outros paineis sejam display: none. adicionando eles numa lista de paineis desativados-->
         <div id="tab-impressoras" class="tab-panel active">
             <div id="arvore" style="display: flex; flex-direction: column; gap: 1rem;"></div>
         </div>
 
         <div id="tab-recados" class="tab-panel" style="display: none;">
-             <div style="margin: 2rem auto;">
+            <div style="margin: 2rem auto;">
                 <h2 class="texto_padrão">
                     <span></span> MURAL DE AVISOS
                 </h2>
@@ -105,310 +92,401 @@
                         + novo recado
                     </button>
                 </div>
-                <div id="modal-recado" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 100; padding: 1rem;">
-                    <div style="background-color: #0d1117;border: 1px solid rgba(245, 158, 11, 0.4); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 20px 25px -5px rgba (0, 0, 0, 0.5);">
-                        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #2563eb; "> Novo recado </h2>
+                <div id="modal-recado"
+                    style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 100; padding: 1rem;">
+                    <div
+                        style="background-color: #0d1117;border: 1px solid rgba(245, 158, 11, 0.4); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 20px 25px -5px rgba (0, 0, 0, 0.5);">
+                        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #2563eb; "> Novo
+                            recado </h2>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <input id="titulo-lembrete" placeholder="Titulo do lembrete(imprtante)" style="width:100%; background-color:#0f172a; border: 1px solid #334155; padding: 6px; border-radius: 1rem; color: white; outline: none; box-sizing: border-box;">
-                            <textarea id="Desc-lembrete" placeholder="Detalhe o lembrete" style="width: 100%; background-color:#0f172a; border: 1px solid #334155; padding: 0.8rem; border-radius: 0.8rem; color: white; outline: none; height: 120px; resize: none; box-sizing: border-box;"></textarea>
-                            <textarea id="Corumbinha" placeholder="Qual é o seu nome." style="width: 100%; height: 35px; background-color: #0f172a; border-radius: 20px; padding: 3px; color: white; outline: none; box-sizing: border-box; resize: none;"></textarea>
-                             <div style="display: flex; align-items: center; gap: 7px;">  
-                                <input type="checkbox" id="Recado-urgente" style="cursor: pointer; width:1.2rem; height: 1.2rem;">
-                                <label for="Recado-urgente" style="font-size: 0.8rem; color:#94a3b8; cursor: pointer ;">Marcar como urgente</label>
-                             </div>
-                             <div style="display: flex; gap: 0.7rem; padding-top: 20px;">
-                                <button onclick="fecharModalrecado()" style=" flex: 1; background-color: #1e293b; padding: 0.8rem; border-radius: 0.7rem; color: white; border: none; cursor: pointer; font-weight: 700;"> Descartar </button>  
-                                <button onclick="salvarRecado()" style=" flex: 1; background-color: #1e293b; padding: 0.8rem; border-radius: 0.7rem; color: white; border: none; cursor: pointer; font-weight: 700;"> Salvar </button>
-                             </div>
+                            <input id="titulo-lembrete" placeholder="Titulo do lembrete(imprtante)"
+                                style="width:100%; background-color:#0f172a; border: 1px solid #334155; padding: 6px; border-radius: 1rem; color: white; outline: none; box-sizing: border-box;">
+                            <textarea id="Desc-lembrete" placeholder="Detalhe o lembrete"
+                                style="width: 100%; background-color:#0f172a; border: 1px solid #334155; padding: 0.8rem; border-radius: 0.8rem; color: white; outline: none; height: 120px; resize: none; box-sizing: border-box;"></textarea>
+                            <textarea id="Corumbinha" placeholder="Qual é o seu nome."
+                                style="width: 100%; height: 35px; background-color: #0f172a; border-radius: 20px; padding: 3px; color: white; outline: none; box-sizing: border-box; resize: none;"></textarea>
+                            <div style="display: flex; align-items: center; gap: 7px;">
+                                <input type="checkbox" id="Recado-urgente"
+                                    style="cursor: pointer; width:1.2rem; height: 1.2rem;">
+                                <label for="Recado-urgente"
+                                    style="font-size: 0.8rem; color:#94a3b8; cursor: pointer ;">Marcar como
+                                    urgente</label>
+                            </div>
+                            <div style="display: flex; gap: 0.7rem; padding-top: 20px;">
+                                <button onclick="fecharModalrecado()"
+                                    style=" flex: 1; background-color: #1e293b; padding: 0.8rem; border-radius: 0.7rem; color: white; border: none; cursor: pointer; font-weight: 700;">
+                                    Descartar </button>
+                                <button onclick="salvarRecado()"
+                                    style=" flex: 1; background-color: #1e293b; padding: 0.8rem; border-radius: 0.7rem; color: white; border: none; cursor: pointer; font-weight: 700;">
+                                    Salvar </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="Recados-importantes" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;"> </div>
-             </div>
+                <div id="Recados-importantes"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                </div>
+            </div>
         </div>
 
-       <div id="tab-computadores" class="tab-panel" style="display: none;">
-    <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
-        <label for="filtro-cliente" style="color: #64748b; font-size: 0.875rem; font-weight: 600;">FILTRAR POR CLIENTE:</label>
-        <select id="filtro-cliente" onchange="aplicarFiltroComputadores()" style="background-color: #0f172a; border: 5px solid #334155; color: white; padding: 0.5rem; border-radius: 1rem; outline: none; cursor: pointer;" onmouseover= "this.style.backgroundColor=`#64748b`" onmouseout="this.style.backgroundColor=`#64748b`";>
-            <option value="todos">TODOS</option>
-        </select>
-    </div>
-    
-    <div id="lista-computadores" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;"></div>
-</div>
+        <div id="tab-computadores" class="tab-panel" style="display: none;">
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                <label for="filtro-cliente" style="color: #64748b; font-size: 0.875rem; font-weight: 600;">FILTRAR POR
+                    CLIENTE:</label>
+                <select id="filtro-cliente" onchange="aplicarFiltroComputadores()"
+                    style="background-color: #0f172a; border: 5px solid #334155; color: white; padding: 0.5rem; border-radius: 1rem; outline: none; cursor: pointer;"
+                    onmouseover="this.style.backgroundColor=`#64748b`" onmouseout="this.style.backgroundColor=`#64748b`"
+                    ;>
+                    <option value="todos">TODOS</option>
+                </select>
+            </div>
 
-    <div id="modal-impressora" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
-        <div style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #60a5fa;">NOVA IMPRESSORA</h2>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <input
-                    id="in-unit"
-                    placeholder="CLIENTE / UNIDADE"
-                    style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                <input
-                    id="in-name"
-                    placeholder="SETOR"
-                    style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                <input
-                    id="in-ip"
-                    placeholder="ENDEREÇO IP OU HOSTNAME"
-                    style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                <input
-                    id="in-model"
-                    placeholder="MODELO ex: L6270"
-                    style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                <div style="display: flex; gap: 0.75rem; padding-top: 0.5rem;">
-                    <button
-                        onclick="fecharModalImpressora()"
-                        style="flex: 1; background-color: #1e293b; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: white; transition: background-color 0.2s;"
-                        onmouseover="this.style.backgroundColor='#334155'"
-                        onmouseout="this.style.backgroundColor='#1e293b'">
-                        CANCELAR
+            <div id="lista-computadores"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+        </div>
+
+        <div id="modal-impressora"
+            style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
+            <div
+                style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #60a5fa;">NOVA IMPRESSORA
+                </h2>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <input id="in-unit" placeholder="CLIENTE / UNIDADE"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
+                    <input id="in-name" placeholder="SETOR"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
+                    <input id="in-ip" placeholder="ENDEREÇO IP OU HOSTNAME"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
+                    <input id="in-model" placeholder="MODELO ex: L6270"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
+                    <div style="display: flex; gap: 0.75rem; padding-top: 0.5rem;">
+                        <button onclick="fecharModalImpressora()"
+                            style="flex: 1; background-color: #1e293b; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: white; transition: background-color 0.2s;"
+                            onmouseover="this.style.backgroundColor='#334155'"
+                            onmouseout="this.style.backgroundColor='#1e293b'">
+                            CANCELAR
+                        </button>
+                        <button onclick="salvarImpressora()" class="button-salvar"
+                            onmouseover="this.style.backgroundColor='#3b82f6'"
+                            onmouseout="this.style.backgroundColor='#2563eb'">
+                            SALVAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab-Rb" class="tab-panel" style="display: none;">
+
+            <div id="painel-infra" style="display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 1.5rem;"></div>
+
+            <div class="fixed bottom-10 right-10 flex flex-col gap-2">
+                <button onclick="adicionarEquipamento('rb')"
+                    class="bg-blue-600 hover:bg-blue-500 p-4 rounded-full shadow-lg text-white font-bold">+ RB</button>
+                <button onclick="adicionarEquipamento('switch')"
+                    class="bg-slate-700 hover:bg-slate-600 p-4 rounded-full shadow-lg text-white font-bold">+
+                    Switch</button>
+                <button onclick="adicionarEquipamento(`Roteador`)"
+                    class="bg-green-600 hover:bg-green-500 p-4 rounded-full shadow-lg text-white font-bold">Roteador</button>
+            </div>
+        </div>
+        <div id="tab-atendimentos" class="tab-panel" style="display: none;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto 1.5rem auto; width: 100%;">
+                <h2 class="texto_padrão" style="margin-bottom: 0;">Painel de Atendimentos</h2>
+
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="MudarModoAtendimento('abertos')" id="btn-modo-abertos"
+                        style="background-color: #2563eb; color: white; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
+                        EM ANDAMENTO
                     </button>
-                    <button
-                        onclick="salvarImpressora()"
-                        class="button-salvar"
-                        onmouseover="this.style.backgroundColor='#3b82f6'"
-                        onmouseout="this.style.backgroundColor='#2563eb'">
-                        SALVAR
+                    <button onclick="MudarModoAtendimento('finalizados')" id="btn-modo-finalizados"
+                        style="background-color: #1e293b; color: #64748b; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
+                        HISTÓRICO (7D)
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
-<div id="tab-Rb" class="tab-panel" style="display: none;">
 
-    <div id="painel-infra" style="display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 1.5rem;"></div>
-    
-    <div class= "fixed bottom-10 right-10 flex flex-col gap-2" >
-        <button onclick="adicionarEquipamento('rb')" class="bg-blue-600 hover:bg-blue-500 p-4 rounded-full shadow-lg text-white font-bold">+ RB</button>
-        <button onclick="adicionarEquipamento('switch')" class="bg-slate-700 hover:bg-slate-600 p-4 rounded-full shadow-lg text-white font-bold">+ Switch</button>
-        <button onclick="adicionarEquipamento(`Roteador`)" class="bg-green-600 hover:bg-green-500 p-4 rounded-full shadow-lg text-white font-bold">Roteador</button>
-    </div>     
-</div>
-<div id="tab-atendimentos" class="tab-panel" style="display: none;">
-    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto 1.5rem auto; width: 100%;">
-        <h2 class="texto_padrão" style="margin-bottom: 0;">Painel de Atendimentos</h2>
-        
-        <div style="display: flex; gap: 10px;">
-            <button onclick="MudarModoAtendimento('abertos')" id="btn-modo-abertos" style="background-color: #2563eb; color: white; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
-                EM ANDAMENTO
+            <button id="btn-add-atendimento" class="botão_add" onclick="AbrirModalAtendimento()"
+                style="margin-bottom: 1rem;">
+                Adicionar atendimento
             </button>
-            <button onclick="MudarModoAtendimento('finalizados')" id="btn-modo-finalizados" style="background-color: #1e293b; color: #64748b; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
-                HISTÓRICO (7D)
+
+            <div id="atendimento_importantes" class="flex flex-wrap justify-center w-full mt-4 mx-auto"
+                style="font-size: 20px; color: aliceblue; max-width: 1280px;">
+            </div>
+            <div id="modal-atendimento"
+                style="display: none; color:white; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+                <div
+                    style="height: 600px; width: 400px; border-radius: 12px; background-color: #1e293b; position: relative;  font-size: 20px; border: 1px solid #60a5fa; display:flex; flex-direction: column; align-items: center; ">
+                    <span style=" display: flex; justify-content: center; font-weight: 800; margin-top: 20px;"
+                        onmouseover="this.style.color= `white`" onmouseout="this.style.color=`#2563eb`">Proceder do
+                        atendimento</span>
+                    <div
+                        style="height: 100%; max-width: 400px; width: 350px;  display: flex; flex-direction: column; gap: 12px; margin-top: 12px; padding: 12px;">
+                        <input id="NomeAtendimento" type="text" placeholder="Motivo atendimento"
+                            style=" text-align: center; width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box; justify-content: start;">
+                        <input id="Local" type="text" placeholder="Local do atendimento"
+                            style="text-align: center; width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
+                        <label
+                            style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: white;">
+                            <span>Marque se fez a retirada de equipamento</span>
+                            <input id="RtdEqp" type="checkbox">
+                        </label>
+                        <label>
+                            <span style="font-size: 12px; color: white;">Data de chegada</span>
+                            <input id="DataChegada" type="datetime-local"
+                                style="background-color: #1e293b; width: 260px; height: 30px; border: 1px solid white; border-radius: 12px; padding: 7px;">
+                        </label>
+                        <textarea name="Atd" id="descricaoAtd"
+                            placeholder="Descreva o atendimento, possíveis causas ou soluções"
+                            style="text-align: center ; width: 100%; color: black; background-color: #0f172a; border: 1px solid #334155; border-radius: 9px; font-size: 13px; color: white; box-sizing: border-box; height: 100px;"></textarea>
+                        <div class="caixa-whatsapp" style="margin-top: 15px; width: 100%;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <label class="label-whatsapp" style="font-size: 0.8rem; color: #94a3b8;">Notificar no
+                                    WhatsApp:</label>
+                                <button onclick="abrirModalContatos()"
+                                    style="background: none; border: none; color: #60a5fa; cursor: pointer; font-size: 0.75rem; font-weight: 700;">⚙️
+                                    GERENCIAR NÚMEROS</button>
+                            </div>
+                            <select id="wpp-atendimento" class="seletor-whatsapp"
+                                style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.7rem; color: white; outline: none; cursor: pointer;"></select>
+                        </div>
+                        <div
+                            style="display: flex; flex-direction: row; gap: 150px;align-items:flex-end; margin-top: 20px;">
+                            <button onclick="FecharModalAtendimento()" class="button-cancelar">Cancelar</button>
+                            <button onclick="SalvarModalAtendimento()" class="button-salvar">Salvar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="atendimento-finalizacao"
+                style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px); z-index: 100;">
+                <div
+                    style="width: 450px; height: 350px; border-radius: 12px; background-color: #1e293b; border: 1px solid #10b981; display: flex; flex-direction: column; align-items: center; padding: 20px; color: white;">
+
+                    <span
+                        style="font-weight: 800; margin-top: 10px; color: #10b981; text-transform: uppercase; font-size: 18px;">Finalizar
+                        Atendimento</span>
+                    <input type="hidden" id="finalizar-id">
+
+                    <div
+                        style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; flex-grow: 1;">
+                        <label style="font-size: 12px; color: #94a3b8;">O que foi feito para resolver o
+                            problema?</label>
+                        <textarea id="resolucaoAtd" placeholder="Descreva a solução."
+                            style="width: 100%; height: 120px; background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; color: white; font-size: 13px; box-sizing: border-box; resize: none; outline: none;"></textarea>
+                    </div>
+
+                    <div
+                        style="display: flex; gap: 20px; width: 100%; justify-content: center; margin-top: auto; padding-bottom: 10px;">
+                        <button onclick="FecharModalFinalizacao()" class="button-cancelar">Cancelar</button>
+                        <button onclick="EnviarFinalizacao()" class="button-salvar"
+                            style="background-color: #10b981;">Concluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab-nobreaks" class="tab-panel" style="display: none;"></div>
+        <div id="modal-nobreak"
+            style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
+            <div
+                style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+                <h2 id="titulo-modal-nobreak"
+                    style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #facc15;">NOVO NOBREAK
+                </h2>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <input type="hidden" id="nb-id">
+
+                    <input id="nb-nome" placeholder="NOME DO EQUIPAMENTO (ex: Nobreak Rack Principal)"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
+
+                    <input id="nb-local" placeholder="CLIENTE / LOCAL (ex: Faturamento)"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
+
+                    <input id="nb-desc" placeholder="DESCRIÇÃO"
+                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
+
+                    <div style="display: flex; gap: 0.75rem; padding-top: 0.5rem;">
+                        <button onclick="fecharModalNobreak()"
+                            style="flex: 1; background-color: #1e293b; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: white; transition: 0.2s;"
+                            onmouseover="this.style.backgroundColor='#334155'"
+                            onmouseout="this.style.backgroundColor='#1e293b'">CANCELAR</button>
+
+                        <button onclick="salvarNobreak()"
+                            style="flex: 1; background-color: #eab308; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: #0f172a; transition: 0.2s;"
+                            onmouseover="this.style.backgroundColor='#facc15'"
+                            onmouseout="this.style.backgroundColor='#eab308'">SALVAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-contatos"
+        style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 60; padding: 1rem;">
+        <div
+            style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 25rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.2rem; font-weight: 700; color: #60a5fa; margin: 0;">📱 CONTATOS T.I.</h2>
+                <button onclick="fecharModalContatos()"
+                    style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✖</button>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-direction: column;">
+                <input id="novo-ctt-nome" placeholder="Nome (ex: João T.I.)"
+                    style="flex: 1; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.5rem; color: white; outline: none; font-size: 0.8rem;">
+                <input id="novo-ctt-num" placeholder="DDD+Número"
+                    style="flex: 1; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.5rem; color: white; outline: none; font-size: 0.8rem;">
+                <button onclick="salvarContato()"
+                    style="background-color: #10b981; color: white; border: none; padding: 0 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 700;">Adicionar
+                    +</button>
+            </div>
+
+            <div id="lista-contatos-salvos"
+                style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="tab-carros" class="tab-panel" style="display: none; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>Gestão de Frota</h2>
+            <button id="btn-novo-checklist"
+                style="padding: 10px 20px; background-color: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; z-index: 10;">
+                + Novo Checklist
             </button>
         </div>
-    </div>
 
-    <button id="btn-add-atendimento" class="botão_add" onclick="AbrirModalAtendimento()" style="margin-bottom: 1rem;">
-        Adicionar atendimento
-    </button>
-    
-    <div id="atendimento_importantes" class="flex flex-wrap justify-center w-full mt-4 mx-auto" style="font-size: 20px; color: aliceblue; max-width: 1280px;">
-        </div>
-    <div id="modal-atendimento" style="display: none; color:white; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-        <div style="height: 600px; width: 400px; border-radius: 12px; background-color: #1e293b; position: relative;  font-size: 20px; border: 1px solid #60a5fa; display:flex; flex-direction: column; align-items: center; ">
-            <span style=" display: flex; justify-content: center; font-weight: 800; margin-top: 20px;" onmouseover="this.style.color= `white`" onmouseout="this.style.color=`#2563eb`">Proceder do atendimento</span>
-            <div style="height: 100%; max-width: 400px; width: 350px;  display: flex; flex-direction: column; gap: 12px; margin-top: 12px; padding: 12px;">
-                <input id="NomeAtendimento" type="text" placeholder="Motivo atendimento" style=" text-align: center; width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box; justify-content: start;">
-                 <input id="Local" type="text" placeholder="Local do atendimento" style="text-align: center; width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                 <label  style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: white;">
-                    <span>Marque se fez a retirada de equipamento</span>
-                    <input id="RtdEqp" type="checkbox">
-                </label>
-                <label>
-                    <span style="font-size: 12px; color: white;">Data de chegada</span>
-                    <input id="DataChegada" type="datetime-local" style="background-color: #1e293b; width: 260px; height: 30px; border: 1px solid white; border-radius: 12px; padding: 7px;">
-                </label>
-                 <textarea name="Atd" id="descricaoAtd" placeholder="Descreva o atendimento, possíveis causas ou soluções" style="text-align: center ; width: 100%; color: black; background-color: #0f172a; border: 1px solid #334155; border-radius: 9px; font-size: 13px; color: white; box-sizing: border-box; height: 100px;"></textarea>
-                    <div class="caixa-whatsapp" style="margin-top: 15px; width: 100%;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <label class="label-whatsapp" style="font-size: 0.8rem; color: #94a3b8;">Notificar no WhatsApp:</label>
-            <button onclick="abrirModalContatos()" style="background: none; border: none; color: #60a5fa; cursor: pointer; font-size: 0.75rem; font-weight: 700;">⚙️ GERENCIAR NÚMEROS</button>
-                </div>
-                    <select id="wpp-atendimento" class="seletor-whatsapp" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.7rem; color: white; outline: none; cursor: pointer;"></select>
-                </div>
-                 <div style="display: flex; flex-direction: row; gap: 150px;align-items:flex-end; margin-top: 20px;">
-                    <button onclick="FecharModalAtendimento()" class="button-cancelar">Cancelar</button>
-                    <button onclick="SalvarModalAtendimento()" class="button-salvar">Salvar</button>
-                </div>
+        <div id="lista-checklists" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
 
-            </div>
         </div>
     </div>
-    <div id="atendimento-finalizacao" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px); z-index: 100;">
-    <div style="width: 450px; height: 350px; border-radius: 12px; background-color: #1e293b; border: 1px solid #10b981; display: flex; flex-direction: column; align-items: center; padding: 20px; color: white;">
-        
-        <span style="font-weight: 800; margin-top: 10px; color: #10b981; text-transform: uppercase; font-size: 18px;">Finalizar Atendimento</span>
-        <input type="hidden" id="finalizar-id">
+    <div id="modal-checklist"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
 
-        <div style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 20px; flex-grow: 1;">
-            <label style="font-size: 12px; color: #94a3b8;">O que foi feito para resolver o problema?</label>
-            <textarea id="resolucaoAtd" placeholder="Descreva a solução." style="width: 100%; height: 120px; background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; color: white; font-size: 13px; box-sizing: border-box; resize: none; outline: none;"></textarea>
+        <div
+            style="background-color: #0f172a; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 30px; border-radius: 8px; position: relative;">
+
+            <span id="fechar-modal-carro"
+                style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: whitesmoke;">&times;</span>
+            <h2 style="text-align: center; color: #3b82f6; margin-bottom: 20px;">CHECKLIST DOS CARROS</h2>
+
+            <form id="form-checklist">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label style="font-size: 12px; color: white;">PLACA</label>
+                        <input type="text" id="carro-placa"
+                            style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;"
+                            required>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: white;">HODÔMETRO *</label>
+                        <input type="number" id="carro-hodometro"
+                            style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;"
+                            required>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: white;">MOTORISTA</label>
+                        <input type="text" id="carro-motorista" placeholder="Nome e Sobrenome"
+                            style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;"
+                            required>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: white;">TIPO DE CHECK LIST *</label>
+                        <select id="carro-tipo"
+                            style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;"
+                            required>
+                            <option value="Periódico">Periódico</option>
+                            <option value="Mensal">Mensal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr style="margin: 25px 0; border: 0; border-top: 1px solid #e2e8f0;">
+
+                <div
+                    style="background-color: #334155; padding: 20px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 15px;">
+                    <h3 style="margin-top: 0; color: white;">MANUTENÇÃO</h3>
+                    <p style="font-size: 12px; color: white; margin-bottom: 10px;">MARQUE O QUE FOI VERIFICADO:</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px; color: white">
+                        <label><input type="checkbox" name="manutencao" value="Óleo"> Óleo</label>
+                        <label><input type="checkbox" name="manutencao" value="Água do Radiador"> Água do
+                            Radiador</label>
+                        <label><input type="checkbox" name="manutencao" value="Água do Para-brisa"> Água do
+                            Para-brisa</label>
+                    </div>
+
+                    <label style="margin-top: 20px; display: block; font-size: 12px; color: white;">OBS:</label>
+                    <textarea id="carro-obs" rows="4" placeholder="Digite aqui..."
+                        style="width: 100%; border: 1px solid #3b82f6; border-radius: 4px; padding: 10px; margin-top: 5px; background-color: #0f172a"></textarea>
+                </div>
+                <hr style="margin: 25px 0; border: 0; border-top: 1px solid #e2e8f0;">
+                <div
+                    style="display: flex; flex-direction: column; gap: 10px; color: white; background-color:  #334155; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+                    <h3 style="margin-top: 0; color: white;"> BATIDOS/AMASSADOS</h3>
+                    <p style="font-size: 24px; color: white; margin-bottom: 10px;"> Marque os locais avariados</p>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label><input type="checkbox" name="batidos" value="Frente"> Frente</label>
+                        <label><input type="checkbox" name="batidos" value="Lateral direita"> Lateral direita</label>
+                        <label><input type="checkbox" name="batidos" value="lateral esquerda"> Lateral esquerda</label>
+                        <label><input type="checkbox" name="batidos" value="Traseira"> Traseira</label>
+                    </div>
+                    <label
+                        style=" font-size: 24px; margin-top: 20px; display: block; font-size: 12px; color: white; ">Descrição
+                        das marcas de guerra </label>
+                    <textarea id="obsBatidas" rows="4" placeholder="Descreva com detalhes aqui"
+                        style="width: 100%; border: 1px solid  #3b82f6; border-radius: 4px; padding: 10px; margin-top: 5px; background-color: #0f172a"
+                        ;"> </textarea>
+
+                </div>
+                <button type="submit"
+                    style="width: 100%; padding: 15px; background: #10b981; color: white; border: none; border-radius: 5px; margin-top: 10px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                    SALVAR CHECKLIST
+                </button>
+            </form>
         </div>
-
-        <div style="display: flex; gap: 20px; width: 100%; justify-content: center; margin-top: auto; padding-bottom: 10px;">
-            <button onclick="FecharModalFinalizacao()" class="button-cancelar">Cancelar</button>
-            <button onclick="EnviarFinalizacao()" class="button-salvar" style="background-color: #10b981;">Concluir</button>
-        </div>
     </div>
-</div>
-</div>
-<div id="tab-nobreaks" class="tab-panel" style="display: none;" ></div>
-    <div id="modal-nobreak" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
-        <div style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-            <h2 id="titulo-modal-nobreak" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #facc15;" >NOVO NOBREAK</h2>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <input type="hidden" id="nb-id">
+    <!--Controle de abas-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabBtns = document.querySelectorAll('.tab-btn');
 
-                <input id="nb-nome" placeholder="NOME DO EQUIPAMENTO (ex: Nobreak Rack Principal)" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
-                
-                <input id="nb-local" placeholder="CLIENTE / LOCAL (ex: Faturamento)" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
-                
-                <input id="nb-desc" placeholder="DESCRIÇÃO" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; box-sizing: border-box;">
-
-                <div style="display: flex; gap: 0.75rem; padding-top: 0.5rem;">
-                    <button onclick="fecharModalNobreak()" style="flex: 1; background-color: #1e293b; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: white; transition: 0.2s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">CANCELAR</button>
-                    
-                    <button onclick="salvarNobreak()" style="flex: 1; background-color: #eab308; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: #0f172a; transition: 0.2s;" onmouseover="this.style.backgroundColor='#facc15'" onmouseout="this.style.backgroundColor='#eab308'">SALVAR</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modal-contatos" style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 60; padding: 1rem;">
-    <div style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 25rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2 style="font-size: 1.2rem; font-weight: 700; color: #60a5fa; margin: 0;">📱 CONTATOS T.I.</h2>
-            <button onclick="fecharModalContatos()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✖</button>
-        </div>
-        
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-direction: column;">
-            <input id="novo-ctt-nome" placeholder="Nome (ex: João T.I.)" style="flex: 1; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.5rem; color: white; outline: none; font-size: 0.8rem;">
-            <input id="novo-ctt-num" placeholder="DDD+Número" style="flex: 1; background-color: #0f172a; border: 1px solid #334155; padding: 0.7rem; border-radius: 0.5rem; color: white; outline: none; font-size: 0.8rem;">
-            <button onclick="salvarContato()" style="background-color: #10b981; color: white; border: none; padding: 0 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 700;">Adicionar +</button>
-        </div>
-
-        <div id="lista-contatos-salvos" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
-            </div>
-
-    </div>
-</div>
-
-<div id="tab-carros" class="tab-panel" style="display: none; padding: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2>Gestão de Frota</h2>
-        <button id="btn-novo-checklist" style="padding: 10px 20px; background-color: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; z-index: 10;">
-            + Novo Checklist
-        </button>
-    </div>
-
-    <div id="lista-checklists" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-
-    </div>
-</div>
-<div id="modal-checklist" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
-
-    <div style="background-color: #0f172a; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 30px; border-radius: 8px; position: relative;">
-        
-        <span id="fechar-modal-carro" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: whitesmoke;">&times;</span>
-        <h2 style="text-align: center; color: #3b82f6; margin-bottom: 20px;">CHECKLIST DOS CARROS</h2>
-        
-        <form id="form-checklist">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div>
-                    <label style="font-size: 12px; color: white;">PLACA</label>
-                    <input type="text" id="carro-placa" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
-                </div>
-                <div>
-                    <label style="font-size: 12px; color: white;">HODÔMETRO *</label>
-                    <input type="number" id="carro-hodometro" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
-                </div>
-                <div>
-                    <label style="font-size: 12px; color: white;">MOTORISTA</label>
-                    <input type="text" id="carro-motorista" placeholder="Nome e Sobrenome" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
-                </div>
-                <div>
-                    <label style="font-size: 12px; color: white;">TIPO DE CHECK LIST *</label>
-                    <select id="carro-tipo" style="width: 100%; padding: 10px; border: 1px solid black; border-radius: 4px; color: #0d1117; background-color: #334155; color: whitesmoke;" required>
-                        <option value="Periódico">Periódico</option>
-                        <option value="Mensal">Mensal</option>
-                    </select>
-                </div>
-            </div>
-
-            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #e2e8f0;">
-
-            <div style="background-color: #334155; padding: 20px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 15px;">
-                <h3 style="margin-top: 0; color: white;">MANUTENÇÃO</h3>
-                <p style="font-size: 12px; color: white; margin-bottom: 10px;">MARQUE O QUE FOI VERIFICADO:</p>
-                
-                <div style="display: flex; flex-direction: column; gap: 10px; color: white">
-                    <label><input type="checkbox" name="manutencao" value="Óleo"> Óleo</label>
-                    <label><input type="checkbox" name="manutencao" value="Água do Radiador"> Água do Radiador</label>
-                    <label><input type="checkbox" name="manutencao" value="Água do Para-brisa"> Água do Para-brisa</label>
-                </div>
-                
-                <label style="margin-top: 20px; display: block; font-size: 12px; color: white;">OBS:</label>
-                <textarea id="carro-obs" rows="4" placeholder="Digite aqui..." style="width: 100%; border: 1px solid #3b82f6; border-radius: 4px; padding: 10px; margin-top: 5px; background-color: #0f172a"></textarea>
-            </div>
-            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #e2e8f0;">
-           <div style="display: flex; flex-direction: column; gap: 10px; color: white; background-color:  #334155; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-                <h3 style="margin-top: 0; color: white;"> BATIDOS/AMASSADOS</h3>
-                <p style="font-size: 24px; color: white; margin-bottom: 10px;"> Marque os locais avariados</p>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <label><input type="checkbox" name="batidos" value="Frente"> Frente</label>
-                    <label><input type="checkbox" name="batidos" value="Lateral direita"> Lateral direita</label>
-                    <label><input type="checkbox" name="batidos" value="lateral esquerda"> Lateral esquerda</label>
-                    <label><input type="checkbox" name="batidos" value="Traseira"> Traseira</label>
-                </div>
-                <label style=" font-size: 24px; margin-top: 20px; display: block; font-size: 12px; color: white; ">Descrição das marcas de guerra </label>
-                <textarea id="obsBatidas" rows="4" placeholder="Descreva com detalhes aqui" style="width: 100%; border: 1px solid  #3b82f6; border-radius: 4px; padding: 10px; margin-top: 5px; background-color: #0f172a" ;"> </textarea>
-
-            </div>
-            <button type="submit" style="width: 100%; padding: 15px; background: #10b981; color: white; border: none; border-radius: 5px; margin-top: 10px; font-weight: bold; cursor: pointer; font-size: 16px;">
-                SALVAR CHECKLIST
-            </button>
-        </form>
-    </div>
-</div>
-<!--Controle de abas-->
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		const tabBtns = document.querySelectorAll('.tab-btn');
-    
-		tabBtns.forEach(function(btn) {
-			btn.addEventListener('click', function() {
-				const tabAlvo = btn.dataset.tab;
-				tabBtns.forEach(function(b) { 
-					b.style.color = '#64748b';
-					b.classList.remove('active');
-				});
-            document.querySelectorAll('.tab-panel').forEach(function(p) { 
-                p.style.display = 'none';
-                p.classList.remove('active');
+            tabBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const tabAlvo = btn.dataset.tab;
+                    tabBtns.forEach(function (b) {
+                        b.style.color = '#64748b';
+                        b.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-panel').forEach(function (p) {
+                        p.style.display = 'none';
+                        p.classList.remove('active');
+                    });
+                    btn.style.color = 'white';
+                    btn.classList.add('active');
+                    const painelAlvo = document.getElementById('tab-' + tabAlvo);
+                    if (painelAlvo) {
+                        painelAlvo.style.display = 'block';
+                        painelAlvo.classList.add('active');
+                    } else {
+                        console.warn(`Painel com id "tab-${tabAlvo}" não foi encontrado no HTML.`);
+                    }
+                    const btnAdd = document.getElementById('btn-add-printer');
+                    if (btnAdd) {
+                        if (tabAlvo === 'impressoras') {
+                            btnAdd.style.display = '';
+                        } else {
+                            btnAdd.style.display = 'none';
+                        }
+                    }
+                });
             });
-            btn.style.color = 'white';
-            btn.classList.add('active'); 
-            const painelAlvo = document.getElementById('tab-' + tabAlvo); 
-            if (painelAlvo) {
-                painelAlvo.style.display = 'block';
-                painelAlvo.classList.add('active');
-            } else {
-                console.warn(`Painel com id "tab-${tabAlvo}" não foi encontrado no HTML.`);
-            }
-            const btnAdd = document.getElementById('btn-add-printer');
-            if (btnAdd) {
-                if (tabAlvo === 'impressoras') {
-                    btnAdd.style.display = '';
-                } else {
-                    btnAdd.style.display = 'none';
-                }
-            }
-        });
-    });
-});</script>
+        });</script>
 </body>
+
 </html>
