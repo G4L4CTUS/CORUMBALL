@@ -77,7 +77,21 @@ header {
     align-items: center; 
     margin-bottom: 2rem; 
     padding-bottom: 1.5rem; 
-    border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+    /* border: 1px solid rgba(255, 255, 255, 0.993); */
+}
+
+header .logo-container {
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem;
+    /* border: 1px solid rgb(54, 250, 5); */
+}
+
+header .logo-container img {
+    width: 12rem; 
+    height: 12rem; 
+    opacity: 1;
+    /* border: 1px solid rgba(253, 249, 3, 0.986); */
 }
 
 

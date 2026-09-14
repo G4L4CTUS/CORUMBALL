@@ -35,8 +35,8 @@
     <div class="px-6 corpo">
 
         <header>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <img src="https://corumba.digital/assets/c.regular.svg" style="width: 2rem; height: 2rem; opacity: 0.8;"
+        <div class="logo-container">
+                <img class="img-logo-container" src="https://corumba.digital/assets/c.regular.svg"
                     onerror="this.style.display='none'">
                 <div>
                     <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em;">CORUMBAll</h1>
@@ -47,9 +47,7 @@
                 </div>
             </div>
 
-            <button class="botão_add" id="btn-add-printer" onclick="abrirModalImpressora()">
-                + Impressora
-            </button>
+            
         </header>
 
         <nav>
@@ -74,11 +72,12 @@
             <button class="tab-btn" data-tab="carros">
                 Carros
             </button>
-
-
         </nav>
         <!-- essa parte do código é para os paineis, todo painel novo te que ter um "tab-panel" para ser a identificação de qual painel está sendo selecionado, o que estiver selecionado terá o "activate" na frente, ele fará com que os outros paineis sejam display: none. adicionando eles numa lista de paineis desativados-->
         <div id="tab-impressoras" class="tab-panel active">
+            <button class="botão_add" id="btn-add-printer" onclick="abrirModalImpressora()">
+                + Impressora
+            </button>
             <div id="arvore" style="display: flex; flex-direction: column; gap: 1rem;"></div>
         </div>
 
