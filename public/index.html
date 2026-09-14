@@ -87,53 +87,43 @@
         </div>
 
         <!-- MODAL Impressora -->
-        <div id="modal-impressora"
-            style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
-            <div
-                style="background-color: #0d1117; border: 1px solid rgba(100, 116, 139, 0.6); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #60a5fa;">NOVA IMPRESSORA
-                </h2>
-                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <input id="in-unit" placeholder="CLIENTE / UNIDADE"
-                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                    <input id="in-name" placeholder="SETOR"
-                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                    <input id="in-ip" placeholder="ENDEREÇO IP OU HOSTNAME"
-                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                    <input id="in-model" placeholder="MODELO ex: L6270"
-                        style="width: 100%; background-color: #0f172a; border: 1px solid #334155; padding: 0.875rem; border-radius: 0.75rem; outline: none; font-size: 0.875rem; color: white; transition: border-color 0.2s; box-sizing: border-box;">
-                    <div style="display: flex; gap: 0.75rem; padding-top: 0.5rem;">
-                        <button onclick="fecharModalImpressora()"
-                            style="flex: 1; background-color: #1e293b; padding: 0.875rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; border: none; cursor: pointer; color: white; transition: background-color 0.2s;"
-                            onmouseover="this.style.backgroundColor='#334155'"
-                            onmouseout="this.style.backgroundColor='#1e293b'">
+        <div id="modal-impressora" class="modal_impressora">
+            <div class="modal-content">
+                <h2>NOVA IMPRESSORA</h2>
+                <div class="form-group">
+                    <input id="in-unit" placeholder="CLIENTE / UNIDADE">
+                    <input id="in-name" placeholder="SETOR">
+                    <input id="in-ip" placeholder="ENDEREÇO IP OU HOSTNAME">
+                    <input id="in-model" placeholder="MODELO ex: L6270">
+
+                    <div class="button-group">
+                        <button onclick="fecharModalImpressora()" class="button-cancelar">
                             CANCELAR
                         </button>
-                        <button onclick="salvarImpressora()" class="button-salvar"
-                            onmouseover="this.style.backgroundColor='#3b82f6'"
-                            onmouseout="this.style.backgroundColor='#2563eb'">
+                        <button onclick="salvarImpressora()" class="button-salvar">
                             SALVAR
                         </button>
                     </div>
+                    
                 </div>
             </div>
         </div>
 
         <!-- COMPUTADORES -->
-        <div id="tab-computadores" class="tab-panel" style="display: none;">
+        <div id="tab-computadores" class="tab-panel">
             <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
                 <label for="filtro-cliente" style="color: #64748b; font-size: 0.875rem; font-weight: 600;">FILTRAR POR
                     CLIENTE:</label>
-                <select id="filtro-cliente" onchange="aplicarFiltroComputadores()"
-                    style="background-color: #0f172a; border: 5px solid #334155; color: white; padding: 0.5rem; border-radius: 1rem; outline: none; cursor: pointer;"
-                    onmouseover="this.style.backgroundColor=`#64748b`" onmouseout="this.style.backgroundColor=`#64748b`"
-                    ;>
+                <select class="form-select" id="filtro-cliente" onchange="aplicarFiltroComputadores()">
+                    <option disabled value="todos">TODOS</option>
                     <option value="todos">TODOS</option>
+                    <option value="todos">TODOS</option>
+                    <option value="todos">TODOS</option>
+
                 </select>
             </div>
 
-            <div id="lista-computadores"
-                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+            <div id="lista-computadores" class="grid-container">
             </div>
         </div>
 
