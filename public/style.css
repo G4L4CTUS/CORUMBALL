@@ -94,27 +94,19 @@ header .logo-container img {
     /* border: 1px solid rgba(253, 249, 3, 0.986); */
 }
 
+header .logo-text-container h1 {
+    font-size: 1.875rem; 
+    font-weight: 700; 
+    letter-spacing: -0.025em
+}
 
-/* abas*/
-.tab-btn {
-    transition: all 0.2s;
-    position: relative;
+header .logo-text-container a {
+    text-decoration: none; 
+    font-size: 0.75rem; 
+    color: #64748b; 
+    text-transform: uppercase; 
+    letter-spacing: 0.1em; 
     cursor: pointer;
-}
-/*quando estiver active irá colocar uma marcação na página que foi selecionada.*/
-.tab-btn.active {
-    color: #fff;
-}
-
-.tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #3b82f6;
-    border-radius: 2px;
 }
 
 nav {
@@ -141,13 +133,44 @@ nav button {
     letter-spacing: 0.05em;
 }
 
+/* abas*/
+.tab-btn {
+    transition: all 0.2s;
+    position: relative;
+    cursor: pointer;
+}
+/*quando estiver active irá colocar uma marcação na página que foi selecionada.*/
+.tab-btn.active {
+    color: #fff;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+
 .tab-panel {
     display: none;
 }
+
 /*quando estiver active irá desabilitar as outras abas e mostrar apenas essa.*/
 .tab-panel.active {
     display: block;
 }
+
+.tab-panel .arvore {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .caixa-whatsapp {
     display: flex;
     flex-direction: column;

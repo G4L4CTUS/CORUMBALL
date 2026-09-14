@@ -1,6 +1,8 @@
-node_modules 
-.env 
-node_modules 
-.old 
-.wwebjs_auth
 .wwebjs_cache
+.wwebjs_auth
+node_modules 
+.env
+.old 
+Banco de dados/Recados.db
+Banco de dados/frotas.db
+Banco de dados/Nobreaks.db

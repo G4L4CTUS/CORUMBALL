@@ -38,17 +38,20 @@
         <div class="logo-container">
                 <img class="img-logo-container" src="https://corumba.digital/assets/c.regular.svg"
                     onerror="this.style.display='none'">
-                <div>
-                    <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em;">CORUMBAll</h1>
-                    <a href="https://corumba.digital"
-                        style="text-decoration: none; font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;">
+
+                <div class="logo-text-container">
+                    <h1>CORUMBAll</h1>
+                    <!-- Target -> abre em nova aba, rel -> segurança e privacidade -->
+                    <a href="https://corumba.digital" target="_blank" rel="noopener noreferrer">
                         Corumba soluções em T.I
                     </a>
                 </div>
-            </div>
+
+        </div>
 
         </header>
 
+        <!-- Navegação -->
         <nav>
             <button class="tab-btn active" data-tab="impressoras">
                 Impressoras
@@ -72,16 +75,19 @@
                 Carros
             </button>
         </nav>
-        <!-- essa parte do código é para os paineis, todo painel novo te que ter um "tab-panel" para ser a identificação de qual painel está sendo selecionado, o que estiver selecionado terá o "activate" na frente, ele fará com que os outros paineis sejam display: none. adicionando eles numa lista de paineis desativados-->
+
+        <!-- essa parte do código é para os paineis, todo painel novo tem que ter um "tab-panel" para ser a identificação de qual painel está sendo selecionado, o que estiver selecionado terá o "activate" na frente, ele fará com que os outros paineis sejam display: none. adicionando eles numa lista de paineis desativados-->
+        <!-- Impressoras -->
         <div id="tab-impressoras" class="tab-panel active">
             <button class="botão_add" id="btn-add-printer" onclick="abrirModalImpressora()">
                 + Impressora
             </button>
-            <div id="arvore" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+            
+            <div id="arvore"></div>
         </div>
 
-        <div id="tab-recados" class="tab-panel" style="display: none;">
-            <div style="margin: 2rem auto;">
+        <!-- Recados -->
+        <div id="tab-recados" class="tab-panel" style="display: none; border: 1px solid #ffffff; margin: 2rem auto; max-width: 1280px; padding: 1.5rem; border-radius: 1rem;">
                 <h2 class="texto_padrão">
                     <span></span> MURAL DE AVISOS
                 </h2>
@@ -90,7 +96,9 @@
                         + novo recado
                     </button>
                 </div>
-                <div id="modal-recado"
+                
+            <!-- Modal de Recado -->
+            <div id="modal-recado"
                     style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 100; padding: 1rem;">
                     <div
                         style="background-color: #0d1117;border: 1px solid rgba(245, 158, 11, 0.4); padding: 2rem; border-radius: 1rem; width: 100%; max-width: 28rem; box-shadow: 0 20px 25px -5px rgba (0, 0, 0, 0.5);">
@@ -120,13 +128,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>  
+                  
                 <div id="Recados-importantes"
-                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem auto;">
                 </div>
-            </div>
         </div>
 
+        <!-- COMPUTADORES -->
         <div id="tab-computadores" class="tab-panel" style="display: none;">
             <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
                 <label for="filtro-cliente" style="color: #64748b; font-size: 0.875rem; font-weight: 600;">FILTRAR POR
@@ -140,9 +149,11 @@
             </div>
 
             <div id="lista-computadores"
-                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+            </div>
         </div>
 
+        <!-- MODAL Impressora -->
         <div id="modal-impressora"
             style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
             <div
@@ -174,10 +185,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- Infraestrutura -->
         <div id="tab-Rb" class="tab-panel" style="display: none;">
 
+            <!-- grid Infraestrutura -->
             <div id="painel-infra" style="display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 1.5rem;"></div>
-
+            
+            <!-- Botoes flutuantes -->
             <div class="fixed bottom-10 right-10 flex flex-col gap-2">
                 <button onclick="adicionarEquipamento('rb')"
                     class="bg-blue-600 hover:bg-blue-500 p-4 rounded-full shadow-lg text-white font-bold">+ RB</button>
@@ -188,6 +203,8 @@
                     class="bg-green-600 hover:bg-green-500 p-4 rounded-full shadow-lg text-white font-bold">Roteador</button>
             </div>
         </div>
+
+        <!-- Atendimentos -->
         <div id="tab-atendimentos" class="tab-panel" style="display: none;">
             <div
                 style="display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto 1.5rem auto; width: 100%;">
@@ -213,6 +230,8 @@
             <div id="atendimento_importantes" class="flex flex-wrap justify-center w-full mt-4 mx-auto"
                 style="font-size: 20px; color: aliceblue; max-width: 1280px;">
             </div>
+
+
             <div id="modal-atendimento"
                 style="display: none; color:white; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
                 <div
@@ -260,6 +279,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="atendimento-finalizacao"
                 style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px); z-index: 100;">
                 <div
@@ -287,6 +307,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Nobreaks -->
         <div id="tab-nobreaks" class="tab-panel" style="display: none;"></div>
         <div id="modal-nobreak"
             style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
@@ -321,7 +343,9 @@
                 </div>
             </div>
         </div>
+
     </div>
+
     <div id="modal-contatos"
         style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 60; padding: 1rem;">
         <div
@@ -363,6 +387,8 @@
 
         </div>
     </div>
+    
+
     <div id="modal-checklist"
         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
 
@@ -449,6 +475,7 @@
             </form>
         </div>
     </div>
+
     <!--Controle de abas-->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -484,7 +511,8 @@
                     }
                 });
             });
-        });</script>
+        });
+    </script>
 </body>
 
 </html>
