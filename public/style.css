@@ -285,12 +285,20 @@ nav button {
 
 .form-select option:hover {
     background-color: #1e293b;
+    cursor: pointer;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
+}
+
+.grid-container-infra {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 1rem; 
+    padding: .5rem;
 }
 
 .caixa-whatsapp {
