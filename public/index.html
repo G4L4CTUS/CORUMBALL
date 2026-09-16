@@ -213,11 +213,11 @@
                 Adicionar atendimento
             </button>
 
-            <!-- grid de -->
+            <!-- grid de atendimentos -->
             <div id="atendimento_importantes" class="grid-container-atendimentos">
             </div>
 
-
+<!-- MODAIS ATENDIMENTO-->
             <div id="modal-atendimento"
                 style="display: none; color:white; position: fixed; inset: 0; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
                 <div
@@ -295,7 +295,8 @@
         </div>
 
         <!-- Nobreaks -->
-        <div id="tab-nobreaks" class="tab-panel" style="display: none;"></div>
+        <div id="tab-nobreaks" class="tab-panel"></div>
+        <!-- Modal Nobreaks -->
         <div id="modal-nobreak"
             style="display: none; position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center; z-index: 50; padding: 1rem;">
             <div
@@ -360,16 +361,17 @@
         </div>
     </div>
 <!-- CARROS CHECKLIST -->
-    <div id="tab-carros" class="tab-panel" style="display: none; padding: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div id="tab-carros" class="tab-panel" style="padding: 20px;">
+
+        <div class="painel-atendimentos">
             <h2>Gestão de Frota</h2>
             <button id="btn-novo-checklist"
                 style="padding: 10px 20px; background-color: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; z-index: 10;">
                 + Novo Checklist
             </button>
         </div>
-
-        <div id="lista-checklists" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <!-- grid de carros -->
+        <div id="lista-checklists" class="grid-container-carros">
 
         </div>
     </div>
