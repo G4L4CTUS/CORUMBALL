@@ -123,7 +123,7 @@
                 </select>
             </div>
 
-            <div id="lista-computadores" class="grid-container">
+            <div id="lista-computadores" class="grid-container-computadores">
             </div>
         </div>
 
@@ -146,11 +146,11 @@
         </div>
 
         <!-- Recados -->
-        <div id="tab-recados" class="tab-panel" style="display: none; border: 1px solid #ffffff; margin: 2rem auto; max-width: 1280px; padding: 1.5rem; border-radius: 1rem;">
+        <div id="tab-recados" class="tab-panel" class="div-recados">
                 <h2 class="texto_padrão">
                     <span></span> MURAL DE AVISOS
                 </h2>
-                <div style="margin-bottom: 1.5rem;">
+                <div>
                     <button class="botão_add" onclick="abrirModalRecado()">
                         + novo recado
                     </button>
@@ -189,36 +189,32 @@
                     </div>
                 </div>  
                   
-                <div id="Recados-importantes"
-                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem auto;">
-                </div>
+            <div id="Recados-importantes" class="grid-recados">
+            </div>
         </div>
 
         <!-- Atendimentos -->
-        <div id="tab-atendimentos" class="tab-panel" style="display: none;">
-            <div
-                style="display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto 1.5rem auto; width: 100%;">
-                <h2 class="texto_padrão" style="margin-bottom: 0;">Painel de Atendimentos</h2>
+        <div id="tab-atendimentos" class="tab-panel">
+            <div class="painel-atendimentos">
+                <h2 class="texto_padrão">Painel de Atendimentos</h2>
 
-                <div style="display: flex; gap: 10px;">
-                    <button onclick="MudarModoAtendimento('abertos')" id="btn-modo-abertos"
-                        style="background-color: #2563eb; color: white; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
+                <div>
+                    <button onclick="MudarModoAtendimento('abertos')" id="btn-modo-abertos" class="btn-andamento">
                         EM ANDAMENTO
                     </button>
                     <button onclick="MudarModoAtendimento('finalizados')" id="btn-modo-finalizados"
-                        style="background-color: #1e293b; color: #64748b; font-size: 11px; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;">
+                        class="btn-historico">
                         HISTÓRICO (7D)
                     </button>
                 </div>
             </div>
 
-            <button id="btn-add-atendimento" class="botão_add" onclick="AbrirModalAtendimento()"
-                style="margin-bottom: 1rem;">
+            <button id="btn-add-atendimento" class="botão_add" onclick="AbrirModalAtendimento()">
                 Adicionar atendimento
             </button>
 
-            <div id="atendimento_importantes" class="flex flex-wrap justify-center w-full mt-4 mx-auto"
-                style="font-size: 20px; color: aliceblue; max-width: 1280px;">
+            <!-- grid de -->
+            <div id="atendimento_importantes" class="grid-container-atendimentos">
             </div>
 
 

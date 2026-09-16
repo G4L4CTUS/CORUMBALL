@@ -155,7 +155,6 @@ nav button {
     border-radius: 2px;
 }
 
-
 .tab-panel {
     display: none;
 }
@@ -288,7 +287,7 @@ nav button {
     cursor: pointer;
 }
 
-.grid-container {
+.grid-container-computadores {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
@@ -299,6 +298,71 @@ nav button {
     flex-wrap: wrap; 
     gap: 1rem; 
     padding: .5rem;
+}
+
+.div-recados {
+    display: none; 
+    border: 1px solid #ffffff; 
+    margin: 2rem auto; 
+    max-width: 1280px; 
+    padding: 1.5rem; 
+    border-radius: 1rem;
+}
+
+.grid-recados {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 1.5rem; 
+    margin: 2rem auto;
+}
+
+.painel-atendimentos {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1280px; 
+    margin: 0 auto 1.5rem auto; 
+    width: 100%;
+}
+
+.painel-atendimentos h2 {
+    margin-bottom: 0;
+}
+
+.painel-atendimentos div {
+    display: flex; 
+    gap: 10px;
+}
+
+.btn-andamento {
+    background-color: #2563eb; 
+    color: white; 
+    font-size: 11px; 
+    padding: 6px 12px; 
+    border-radius: 6px; 
+    font-weight: 700; 
+    border: none; 
+    cursor: pointer; 
+    transition: 0.2s;
+}
+
+.btn-historico {
+    background-color: #1e293b; 
+    color: #64748b; 
+    font-size: 11px; 
+    padding: 6px 12px; 
+    border-radius: 6px; 
+    font-weight: 700; 
+    border: none; 
+    cursor: pointer; 
+    transition: 0.2s;
+}
+
+.grid-container-atendimentos {
+    display: flex; 
+    flex-wrap: wrap;
+    margin: 2rem auto;
+    padding: 1.5rem;
 }
 
 .caixa-whatsapp {
