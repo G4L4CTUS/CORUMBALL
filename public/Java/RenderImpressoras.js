@@ -213,9 +213,9 @@ async function salvarImpressora() {
     const endereco = document.getElementById('in-ip').value;
     const modelo = document.getElementById('in-model').value;
 
-    const corpo = { unit: unidade, name: setor, ip: endereco, model: modelo };
+    const corpo = { unidade: unidade, setor: setor, endereco: endereco, modelo: modelo };
 
-    await fetch('/api/printers', {
+    await fetch('/api/impressoras', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(corpo)
@@ -232,5 +232,5 @@ async function deletarImpressora(idImpressora) {
     const confirmado = confirm('Remover esta impressora?');
     if (!confirmado) return;
 
-    await fetch('/api/printers/' + idImpressora, { method: 'DELETE' });
+    await fetch('/api/impressoras/' + idImpressora, { method: 'DELETE' });
 }
