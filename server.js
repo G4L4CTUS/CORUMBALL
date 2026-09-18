@@ -3,6 +3,12 @@ const http       = require('http');
 const { Server } = require('socket.io');
 const fs         = require('fs');
 const path       = require('path');
+// criação de pasta padrão
+const pastaBanco = path.join(process.cwd(), 'Banco de dados');
+if (!fs.existsSync(pastaBanco)) {
+    fs.mkdirSync(pastaBanco, { recursive: true });
+    console.log('📁 Pasta "Banco de dados" criada automaticamente.');
+};
 const dns        = require('dns').promises
 const {Client, LocalAuth} = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
