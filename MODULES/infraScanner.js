@@ -1,6 +1,9 @@
 const snmp = require('net-snmp');
 
 async function monitorarEqps(INFRA, OID_VERSAO) {
+	if (!INFRA || !Array.isArray(INFRA)){
+		return[];
+	}
     const eqps = INFRA.filter(eq => (eq.tipo === 'rb' || eq.tipo === "switch") && eq.ip);
     
     return Promise.all(eqps.map(eq => {

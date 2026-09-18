@@ -4,7 +4,7 @@ const path = require(`path`);
 const sqlite3 = require(`sqlite3`).verbose();
 
 
-const dbPath = path.join(`C:/Users/Corumba/Documents/CORUMBALL/Banco de dados`, `Nobreaks.db`);
+const dbPath = path.join(process.cwd(), `Banco de dados`, `Nobreaks.db`);
 const db = new sqlite3.Database(dbPath, (erro)=>{
 		if (erro) console.error(`Erro ao se conectar ao banco de dados:` ,erro.message);
 		else console.log (`Conexão realizada com sucesso`);

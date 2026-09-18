@@ -3,7 +3,7 @@ const router = express.Router();
 const sqlite3 = require ('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.join ('C:/Users/Corumba/Documents/CORUMBALL/Banco de dados', 'Recados.db');
+const dbPath = path.join (process.cwd(), 'Banco de dados', 'Recados.db');
 const db = new sqlite3.Database(dbPath, (erro)=>{
 	if (erro) console.error ('Erro ao se conectar ao banco de dados:', erro.message);
 	else console.log ('Conexão realizada com sucesso');

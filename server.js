@@ -6,6 +6,7 @@ const path       = require('path');
 const dns        = require('dns').promises
 const {Client, LocalAuth} = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const sqlite3 = require('sqlite3').verbose();
 
 // ── Importação dos Módulos Especialistas ──────────────────────────────────────
 const printerScanner = require('./modules/printerScanner');
@@ -41,7 +42,14 @@ app.use(basicAuth({
 app.use(express.json());
 app.use(express.static('public'));
 
-// ── Banco de Dados Local JSON ──────────────────────────────────────────────────
+// ── Banco de Dados ──────────────────────────────────────────────────
+const dbPathImpressoras = path.join(process.cwd(), 'Banco de dados', 'Impressoras.db');
+const dbImpressoras = new sqlite3.Database(dbPathImpressoras);
+
+const dbPathInfra = path.join(process.cwd(), `Banco de dados`, `Infra.db`);
+const dbInfra = new sqlite3.Database(dbPathInfra);
+
+
 const ATENDIMENTOS_FILE = path.join(__dirname, 'atendimentos-config.json');
 let ATENDIMENTOS = [];
 try { 
@@ -49,13 +57,6 @@ try {
 } catch { 
     fs.writeFileSync(ATENDIMENTOS_FILE, '[]'); 
 }
-
-const PRINTERS_FILE = path.join(__dirname, 'printers-config.json');
-let PRINTERS = [];
-try { PRINTERS = JSON.parse(fs.readFileSync(PRINTERS_FILE, 'utf8')); } catch { fs.writeFileSync(PRINTERS_FILE, '[]'); }
-
-const INFRA_FILE = path.join(__dirname, 'infra-config.json');
-let INFRA = fs.existsSync(INFRA_FILE) ? JSON.parse(fs.readFileSync(INFRA_FILE, 'utf8')) : [];
 
 const CONTATOS_FILE = path.join(__dirname, 'contatos-config.json');
 let CONTATOS = fs.existsSync(CONTATOS_FILE) ? JSON.parse(fs.readFileSync(CONTATOS_FILE, 'utf8')) : [];
@@ -82,9 +83,17 @@ const TACTICAL_API_KEY = process.env.TACTICAL_API_KEY;
 // ── Funções de Execução dos Loops Assíncronos (Maestro) ────────────────────────
 
 async function rodarScanImpressoras() {
-    const copiaLimpaPrinters = JSON.parse(JSON.stringify(PRINTERS));
-
-    for (let printer of copiaLimpaPrinters) {
+    dbImpressoras.all(`SELECT * FROM impressoras_clientes`, [], async(err, linhas) =>{
+		if (err || !linhas) return;
+		
+		const impressorasBanco = linhas.map(linha=> ({
+			id: linha.id,
+            unit: linha.unidade,
+            name: linha.setor,
+            ip: linha.endereco,
+            model: linha.modelo
+		}));
+    for (let printer of impressorasBanco) {
         if (printer.ip && /[a-zA-Z]/.test(printer.ip)) {
             try {
                 const lookup = await dns.lookup(printer.ip);
@@ -94,12 +103,16 @@ async function rodarScanImpressoras() {
             }
         }
     }
-    const results = await printerScanner.scanImpressoras(copiaLimpaPrinters, OIDS);
+    const results = await printerScanner.scanImpressoras(impressorasBanco, OIDS);
     if (results && results.length) io.emit('printerUpdate', results);
+	});
 }
 
 async function rodarScanInfra() {
-    const resultados = await infraScanner.monitorarEqps(INFRA, OID_VERSAO);
+	dbInfra.all(`SELECT * FROM Equipamentos`, [], async(err, equipamentos)=>{
+		if (err || !equipamentos || equipamentos.length === 0) return;
+	})
+    const resultados = await infraScanner.monitorarEqps(OID_VERSAO);
     resultados.forEach(dados => {
         if (dados) io.emit('infraStatusUpdate', dados);
     });
@@ -127,7 +140,6 @@ scanComputadores();
 
 io.on('connection', (socket) => {
     console.log('🔌 Novo cliente conectado');
-    socket.emit('printerUpdate', PRINTERS); 
     scanComputadores(); 
 	socket.emit(`atendimentosUpdate`, ATENDIMENTOS.filter(a=>!a.finalizado));
 });
@@ -160,61 +172,24 @@ async function enviarNoti(numero, mensagem){
 
 // ── Rotas REST API ────────────────────────────────────────────────────────────
 
-const rotasCarros = require('./public/Java/Rotas/Carros');
+const rotasCarros = require('./Rotas/Carros');
 app.use('/api/carros', rotasCarros);
 
-const rotasRecados = require('./public/Java/Rotas/Recados');
+const rotasRecados = require('./Rotas/Recados');
 app.use('/api/recados', rotasRecados);
 
-const rotasNobreaks = require('./public/Java/Rotas/Nobreaks');
+const rotasNobreaks = require('./Rotas/Nobreaks');
 app.use('/api/nobreaks', rotasNobreaks);
 
-app.get('/api/infra', (req, res) => res.json(INFRA));
+const rotasImpressoras = require('./Rotas/Impressoras');
+app.use('/api/Impressoras', rotasImpressoras);
 
-app.post('/api/infra', (req, res) => {
-    const novoEq = { id: Date.now(), ...req.body };
-    INFRA.push(novoEq);
-    fs.writeFileSync(INFRA_FILE, JSON.stringify(INFRA, null, 2));
-    res.status(201).json(novoEq);
-});
+const rotasInfra = require('./Rotas/Infra');
+app.use('/api/infra', rotasInfra)
 
-app.delete('/api/infra/:id', (req, res) => {
-    INFRA = INFRA.filter(eq => eq.id != req.params.id);
-    fs.writeFileSync(INFRA_FILE, JSON.stringify(INFRA, null, 2));
-    res.json({ ok: true });
-});
 
-app.put('/api/infra/porta', (req, res) => {
-    const { eqId, portaNum, descricao, cor } = req.body;
-    const eq = INFRA.find(e => e.id == eqId);
-    if (eq) {
-        if (!eq.dadosPortas) eq.dadosPortas = {};
-        eq.dadosPortas[portaNum] = { descricao, cor };
-        fs.writeFileSync(INFRA_FILE, JSON.stringify(INFRA, null, 2));
-    }
-    res.json({ ok: true });
-});
 
-app.post('/api/printers', (req, res) => {
-    const { unit, name, ip, model } = req.body;
-    if (!unit || !name || !ip || !model) return res.status(400).json({ erro: 'Campos obrigatórios' });
-    const nova = { id: Date.now(), unit: unit.toUpperCase(), name, ip, model };
-    PRINTERS.push(nova);
-    fs.writeFileSync(PRINTERS_FILE, JSON.stringify(PRINTERS, null, 2));
-    res.status(201).json(nova);
-});
 
-app.delete('/api/printers/:id', (req, res) => {
-    PRINTERS = PRINTERS.filter(p => p.id != req.params.id);
-    fs.writeFileSync(PRINTERS_FILE, JSON.stringify(PRINTERS, null, 2));
-    res.json({ ok: true });
-});
-
-app.get('/api/status', (_req, res) => res.json({
-    ok: true,
-    impressoras: PRINTERS.length,
-    uptime: Math.floor(process.uptime()) + 's'
-}));
 app.get('/api/atendimentos', (req, res) => {
     const {status} = req.query;
 	if(status===`finalizados` || status === `finalizado`){
