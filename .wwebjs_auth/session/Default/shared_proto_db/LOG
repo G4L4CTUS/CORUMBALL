@@ -1,3 +1,2 @@
-2026/09/17-17:12:18.662 1be4 Reusing MANIFEST C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\shared_proto_db/MANIFEST-000001
-2026/09/17-17:12:18.666 1be4 Recovering log #3
-2026/09/17-17:12:18.667 1be4 Reusing old log C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\shared_proto_db/000003.log 
+2026/09/18-15:45:45.075 e90 Creating DB C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\shared_proto_db since it was missing.
+2026/09/18-15:45:45.083 e90 Reusing MANIFEST C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\shared_proto_db/MANIFEST-000001

@@ -1,3 +1,2 @@
-2026/09/17-17:12:19.014 511c Reusing MANIFEST C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001
-2026/09/17-17:12:19.015 511c Recovering log #3
-2026/09/17-17:12:19.019 511c Reusing old log C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Session Storage/000003.log 
+2026/09/18-15:45:45.118 4158 Creating DB C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Session Storage since it was missing.
+2026/09/18-15:45:45.140 4158 Reusing MANIFEST C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001

@@ -1,3 +1,2 @@
-2026/09/17-17:12:18.585 511c Reusing MANIFEST C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2026/09/17-17:12:18.590 511c Recovering log #4
-2026/09/17-17:12:18.592 511c Reusing old log C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Local Storage\leveldb/000004.log 
+2026/09/18-15:45:45.118 3e9c Creating DB C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Local Storage\leveldb since it was missing.
+2026/09/18-15:45:45.144 3e9c Reusing MANIFEST C:\Users\Corumba\Documents\CORUMBALL\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
